@@ -1,4 +1,8 @@
 @extends('admin.app')
+@section('breadcrumbs')
+<li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+<li class="breadcrumb-item active" aria-current="page">Categories</li>
+@endsection
 @section('content')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h2 class="h2">Categories List</h2>
@@ -7,6 +11,13 @@
                 Add Category
             </a>
         </div>
+    </div>
+    <div class="col-sm-12">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{session('message')}}
+                </div>
+            @endif
     </div>
 
     <div class="table-responsive">
@@ -41,7 +52,13 @@
                         </td>
                         <td>{{$category->created_at}}</td>
                         <td>
-                            <a class="btn btn-info btn-sm" href="#">Edit</a>|<a class="btn btn-danger btn-sm" href="#">Delete</a>
+                            <a class="btn btn-info btn-sm" href="{{route('admin.category.edit',$category->id)}}">Edit</a>
+                            | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$category->id}}')">Delete</a>
+                            <form id="delete-category-{{$category->id}}" action="{{route('admin.category.destroy',$category->id)}}" method="POST" style="display: none;">
+
+                                @method('DELETE')
+                                @csrf
+                            </form>
                         </td>
                         </tr>
                   @endforeach
@@ -53,4 +70,19 @@
               </tbody>
             </table>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{$categories->links()}}
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        function confirmDelete(id){
+            let choice = confirm('Are you sure you want to delete this record?')
+            if(choice){
+                document.getElementById('delete-category-'+id).submit();
+            }
+        }
+    </script>
 @endsection
