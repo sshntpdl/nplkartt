@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Http\Requests\StoreProduct;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('categories')->paginate(3);
         return view('admin.products.index',compact('products'));
     }
 
@@ -25,7 +27,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -34,8 +37,28 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProduct $request)
     {
+        $extension = ".".$request->thumbnail->getClientOriginalExtension();
+       $name = basename($request->thumbnail->getClientOriginalName(), $extension).time();
+       $name = $name.$extension;
+       $path = $request->thumbnail->storeAs('images', $name, 'public');
+       $product = Product::create([
+            'title'=>$request->title,
+           'slug' => $request->slug,
+           'description'=>$request->description,
+           'thumbnail' => $path,
+           'status' => $request->status,
+           'featured' => ($request->featured) ? $request->featured : 0,
+           'price' => $request->price,
+           'discount'=>$request->discount ? $request->discount : 0,
+           'discount_price' => ($request->discount_price) ? $request->discount_price : 0,
+       ]);
+       if($product && $product->categories()->attach($request->category_id)){
+            return back()->with('message', 'Product Successfully Added');
+       }else{
+            return back()->with('message', 'Error Inserting Product');
+       }
         
     }
 
