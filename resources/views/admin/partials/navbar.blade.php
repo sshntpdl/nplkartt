@@ -20,7 +20,7 @@
         <div class="dropdown-menu" aria-labelledby="productDropdown">
           <a class="dropdown-item" href="{{route('admin.product.create')}}">Add Product</a>
           <a class="dropdown-item" href="{{route('admin.product.index')}}">All Products</a>
-          <a class="dropdown-item" href="{{route('admin.product.index')}}">Trashed Products</a>
+          <a class="dropdown-item" href="{{route('admin.product.trash')}}">Trashed Products</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -35,7 +35,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link  @if(request()->url() == route('admin.profile.index')) {{'active'}} @else {{''}} @endif" href="{{route('admin.profile.index')}}">
           <span data-feather="users"></span>
           Customers
         </a>

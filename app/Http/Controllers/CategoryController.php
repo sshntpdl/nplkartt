@@ -89,10 +89,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate([
-            'title'=>'required|min:5',
-            'slug'=>'required|min:5|unique:categories'
-        ]);
+       
 
         $category->title = $request->title;
         $category->description = $request->description;
@@ -105,7 +102,10 @@ class CategoryController extends Controller
         //save current record into database
         $saved=$category->save();
         //return back to the add/edit form
-        return back()->with('message','Record Successfully Updated!');
+        if($saved)
+            return back()->with('message','Record Successfully Updated!');
+        else
+            return back()->with('message', 'Error Updating Category');
     }
 
     public function recoverCat($id)
@@ -131,6 +131,14 @@ class CategoryController extends Controller
                 return back()->with('message','Error Deleting Record');
             }
         }
+
+        public function fetchCategories($id = 0){
+            if($id == 0)
+                return Category::all();
+          $category =  Category::where('id', $id)->first();
+          return $category->childrens;
+        }
+        
             /**
          * Remove the specified resource from storage.
          *

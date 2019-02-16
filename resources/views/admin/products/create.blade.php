@@ -6,9 +6,12 @@
 @endsection
 @section('content')
 <h2 class="modal-title">Add/Edit Products</h2>
-<form  action="{{route('admin.product.store')}}" method="post"  enctype="multipart/form-data" accept-charset="utf-8">
+<form  action="@if(isset($product)) {{route('admin.product.update', $product)}} @else {{route('admin.product.store')}} @endif" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 	<div class="row">
 		@csrf
+		@if(isset($product))
+		@method('PUT')
+		@endif
 		<div class="col-lg-9">
 			<div class="form-group row">
 					<div class="col-sm-12">
@@ -21,6 +24,13 @@
 								</ul>
 							</div>
 							@endif
+						</div>
+						<div class="col-sm-12">
+								@if (session()->has('message'))
+								<div class="alert alert-success">
+									{{session('message')}}
+								</div>
+								@endif
 						</div>
 				<div class="col-lg-12">
 					<label class="form-control-label">Title: </label>
@@ -69,18 +79,7 @@
 
 				</div>
 				<div class="card-body" id="extras">
-					<div class="row align-items-center options">
-						<div class="col-sm-4">
-							<label class="form-control-label">Option <span class="count">1</span></label>
-							<input type="text" name="extra[option][]" class="form-control" value="" placeholder="size">
-						</div>
-						<div class="col-sm-8">
-							<label class="form-control-label">Values</label>
-							<input type="text" name="extra[values][]" class="form-control" placeholder="options1 | option2 | option3" />
-							<label class="form-control-label">Additional Prices</label>
-							<input type="text" name="extra[prices][]" class="form-control" placeholder="price1 | price2 | price3" />
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -91,13 +90,17 @@
 			<li class="list-group-item">
 				<div class="form-group row">
 					<select class="form-control" id="status" name="status">
-						<option value="0">Pending</option>
-						<option value="1">Publish</option>
+							<option value="0" @if(isset($product) && $product->status == 0) {{'selected'}} @endif >Pending</option>
+							<option value="1" @if(isset($product) && $product->status == 1) {{'selected'}} @endif>Publish</option>
 					</select>
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-12">
+						@if(isset($product))
+						<input type="submit" name="submit" class="btn btn-primary btn-block " value="Update Product" />
+						@else
 						<input type="submit" name="submit" class="btn btn-primary btn-block " value="Add Product" />
+						@endif
 					</div>
 
 				</div>
@@ -114,25 +117,32 @@
 					</div>-->
 				</div>
 				<div class="img-thumbnail  text-center">
-                    <img src="@if(isset($product)) {{asset('images/'.$product->thumbnail)}} @else {{asset('images/no-thumbnail.jpg')}} @endif" id="imgthumbnail" class="img-fluid" alt="">
+                    <img src="@if(isset($product)) {{asset('storage/'.$product->thumbnail)}} @else {{asset('images/no-thumbnail.jpg')}} @endif" id="imgthumbnail" class="img-fluid" alt="">
                 </div>
                 </li>
                 <li class="list-group-item">
                     <div class="col-12">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="featured"><input type="checkbox" name="discount" value="0" /></span>
+                                <span class="input-group-text"><input id="featured" type="checkbox" name="featured" value="@if(isset($product)){{@$product->featured}}@else{{0}}@endif" @if(isset($product) && $product->featured == 1) {{'checked'}} @endif /></span>
                             </div>
                             <p type="text" class="form-control" name="featured" placeholder="0.00" aria-label="featured" aria-describedby="featured" >Featured Product</p>
                         </div>
 				    </div>
-			    </li>
+				</li>
+			@php
+			$ids = (isset($product) && $product->categories->count() > 0 ) ? array_pluck($product->categories->toArray(), 'id') : null;
+			@endphp
 			<li class="list-group-item active"><h5>Select Categories</h5></li>
 			<li class="list-group-item ">
 				<select name="category_id[]" id="select2" class="form-control" multiple>
 						@if($categories->count() > 0)
 						@foreach($categories as $category)
-						<option value="{{$category->id}}">{{$category->title}}</option>
+						<option value="{{$category->id}}"
+								@if(!is_null($ids) && in_array($category->id, $ids))
+								{{'selected'}}
+								@endif
+							>{{$category->title}}</option>
 						@endforeach
 						@endif
 				</select>
@@ -154,11 +164,17 @@ console.log( editor );
 .catch( error => {
 console.error( error );
 } );
+@php
+	if(!isset($product)){
+@endphp
 		$('#txturl').on('keyup', function(){
 			const pretty_url = slugify($(this).val());
 			$('#url').html(slugify(pretty_url));
 			$('#slug').val(pretty_url);
 		})
+@php
+	}
+@endphp
 		$('#select2').select2({
 			placeholder: "Select multiple Categories",
 		allowClear: true
@@ -181,24 +197,19 @@ $("#imgthumbnail").attr('src', image);
 $('#btn-add').on('click', function(e){
 	
 		var count = $('.options').length+1;
-		$('#extras').append('<div class="row align-items-center options">\
-						<div class="col-sm-4">\
-								<label class="form-control-label">Option <span>'+count+'</span></label>\
-								<input type="text" name="extra[\option\][]" class="form-control" value="" placeholder="size">\
-						</div>\
-						<div class="col-sm-8">\
-								<label class="form-control-label">Values</label>\
-								<input type="text" name="extra[\values\][]" class="form-control" placeholder="options1 | option2 | option3" />\
-								<label class="form-control-label">Additional Prices</label>\
-								<input type="text" name="extra[\prices\][]" class="form-control" placeholder="price1 | price2 | price3" />\
-						</div>\
-					</div>');
+		$.get("{{route('admin.product.extras')}}").done(function(data){
+			
+			$('#extras').append(data);
+		})
 })
-$('#btn-remove').on('click', function(e){
-	
-		if($('.options').length > 1){
-			$('.options:last').remove();
-		}
+$('#btn-remove').on('click', function(e){	
+	$('.options:last').remove();
+})
+$('#featured').on('change', function(){
+	if($(this).is(":checked"))
+		$(this).val(1)
+	else
+		$(this).val(0)
 })
 	})
 </script>
