@@ -82,10 +82,15 @@
           <div class="row">
             <div class="col-md-3">
                     @section('sidebar')
-                        This is the master sidebar.
+                        @include('layouts.partials.sidebar')
                     @show
             </div>
             <div class="col-md-9">
+                @if(session()->has('message'))
+                    <p class="alert alert-success">
+                        {{ session()->get('message') }}
+                    </p>
+                @endif
                @yield('content')
             </div>
         </div>

@@ -11,11 +11,11 @@
             <img class="card-img-top" src="{{asset('storage/app/public/'.$product->thumbnail)}}">
               <div class="card-body">
                   <h4 class="card-title">{{$product->title}}</h4>
-                <p class="card-text">{!! $product->description !!}</p>
+                <p class="card-text">{!! substr($product->description,0,30) !!}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View Products</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Add to carts</button>
+                  <a type="button" class="btn btn-sm btn-outline-secondary" href="{{route('products.single',$product)}}">View Products</a>
+                  <a type="button" class="btn btn-sm btn-outline-secondary" href="{{route('products.addToCart',$product)}}">Add to carts</a>
                   </div>
                   <small class="text-muted">9 mins</small>
                 </div>
@@ -23,6 +23,11 @@
             </div>
           </div>
           @endforeach
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            {{$products->links()}}
+          </div>
         </div>
       </div>
     </div>
