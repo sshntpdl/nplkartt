@@ -49,7 +49,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProduct $request)
     {
        $path = 'images/no-thumbnail.jpeg';
        if($request->has('thumbnail')){
@@ -87,7 +87,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $categories=Category::all();
+        $products=Product::all();
+        return view('products.all',compact('categories','products'));
     }
 
     /**
@@ -109,7 +111,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(StoreProduct $request, Product $product)
     {
         if($request->has('thumbnail')){
             Storage::delete($product->thumbnail);
@@ -120,7 +122,7 @@ class ProductController extends Controller
             $product->thumbnail = $path;
           }
          $product->title =$request->title;
-         $product->slug = $request->slug;
+         //$product->slug = $request->slug;
          $product->description = $request->description;
          $product->status = $request->status;
          $product->featured = ($request->featured) ? $request->featured : 0;

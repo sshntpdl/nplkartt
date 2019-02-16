@@ -18,6 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['as'=>'products.','prefix'=>'products'],function(){
+    Route::get('/','ProductController@show')->name('all');
+});
 
 Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], function(){
     Route::get('category/{category}/remove','CategoryController@remove')->name('category.remove');
