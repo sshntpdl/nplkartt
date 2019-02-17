@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/checkout', function(){
+    return view('products.checkout');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

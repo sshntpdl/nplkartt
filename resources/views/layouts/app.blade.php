@@ -79,7 +79,8 @@
               </p>
             </div>
           </section>
-          <div class="row">
+          <div class="container-fluid">
+          <div class="row py-2">
             <div class="col-md-3">
                     @section('sidebar')
                         @include('layouts.partials.sidebar')
@@ -93,8 +94,10 @@
                 @endif
                @yield('content')
             </div>
+          </div>
         </div>
     </div>
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
+    @yield('scripts')
 </body>
 </html>
