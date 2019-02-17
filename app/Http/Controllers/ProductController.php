@@ -23,16 +23,7 @@ class ProductController extends Controller
         return view('admin.products.index',compact('products'));
     }
 
-    /**
-     * Display Trashed listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function trash()
-    {
-        $products = Product::with('categories')->onlyTrashed()->paginate(3);
-        return view('admin.products.index', compact('products'));
-    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -177,14 +168,7 @@ class ProductController extends Controller
              return back()->with('message', "Error Updating Product");
          }
      }
-    public function recoverProduct($id)
-     {
-         $product = Product::with('categories')->onlyTrashed()->findOrFail($id);
-         if($product->restore())
-             return back()->with('message','Product Successfully Restored!');
-         else
-             return back()->with('message','Error Restoring Product');
-    }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -201,18 +185,5 @@ class ProductController extends Controller
             return back()->with('message','Error Deleting Product');
         }
     }
-        /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function remove(Product $product)
-    {
-        if($product->delete()){
-            return back()->with('message','Product Successfully Trashed!');
-        }else{
-            return back()->with('message','Error Deleting Product');
-        }
-    }
+      
 }

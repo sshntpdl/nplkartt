@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Role;
+use App\Profile;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Role;
-use App\Profile;
+
 
 class User extends Authenticatable
 {

@@ -35,7 +35,7 @@
 				<div class="col-sm-12 col-md-6">
 					<label class="form-control-label">Name: </label>
 					<input type="text" id="txturl" name="name" class="form-control " value="{{@$user->profile->name}}" />
-					<p class="small">{{route('admin.profile.index')}}/<span id="url">{{@$user->profile->slug}}</span>
+					<p class="small">{{route('admin.profile.index')}}/<span id="url">{{$user->profile->slug}}</span>
                     <input type="hidden" name="slug" id="slug" value="{{@$user->profile->slug}}">
                     </p>
             </div>

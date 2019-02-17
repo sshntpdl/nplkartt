@@ -67,5 +67,7 @@
 			</tbody>
 		</table>
 		</div> <!-- card.// -->
+	@else
+		<p class="alert alert-danger">No Products in the cart. <a href="{{route('products.all')}}">Buy some Products.</a> </p>
 	@endif
 @endsection

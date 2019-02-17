@@ -20,19 +20,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $users = User::with('role','profile')->paginate(3);
+        $users = User::with('role','profile')->paginate(5);
         return view('admin.users.index',compact('users'));
     }
-/**
-     * Display Trashed listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function trash()
-    {
-        $products = User::with('role')->onlyTrashed()->paginate(3);
-        return view('admin.products.index', compact('products'));
-    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -105,7 +96,7 @@ class ProfileController extends Controller
     public function edit(Profile $profile)
     {
         $user = User::find($profile)->first();
-        
+        $countries = Country::all();
         $roles = Role::all();
         return view('admin.users.create',compact('user','roles'));
     }
@@ -122,14 +113,7 @@ class ProfileController extends Controller
         //
     }
 
-    public function recoverProfile($id)
-    {
-        $product = Product::with('categories')->onlyTrashed()->findOrFail($id);
-        if($product->restore())
-            return back()->with('message','Product Successfully Restored!');
-        else
-            return back()->with('message','Error Restoring Product');
-    }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -142,21 +126,7 @@ class ProfileController extends Controller
         //
     }
 
-      /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function remove(Profile $profile)
-    {
-        if($product->delete()){
-            return back()->with('message','Product Successfully Trashed!');
-        }else{
-            return back()->with('message','Error Deleting Product');
-        }
-    }
-
+     
     public function getStates(Request $request, $id){
         if($request->ajax())
             return State::where('country_id', $id)->get();

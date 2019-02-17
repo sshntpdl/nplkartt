@@ -2,13 +2,14 @@
 
 namespace App;
 
+
+use App\User;
+use App\City;
+use App\Country;
+use App\State;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\User;
-use App\Country;
-use App\State;
-use App\City;
 
 class Profile extends Model
 {

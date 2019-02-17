@@ -65,4 +65,5 @@ class Cart
     public function getTotalPrice(){
         return $this->totalPrice;
     }
+    
 }
