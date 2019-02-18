@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Country;
 use App\Http\Requests\StoreUserProfile;
+use Illuminate\Support\Facades\DB;
 use App\Profile;
 use App\Role;
 use App\State;
@@ -21,6 +22,7 @@ class ProfileController extends Controller
     public function index()
     {
         $users = User::with('role','profile')->paginate(5);
+
         return view('admin.users.index',compact('users'));
     }
 
@@ -45,6 +47,7 @@ class ProfileController extends Controller
      */
     public function store(StoreUserProfile $request)
     {
+        dd('store');
         $path = 'images/profile/no-thumbnail.jpg';
       if($request->has('thumbnail')){
        $extension = ".".$request->thumbnail->getClientOriginalExtension();
@@ -95,10 +98,10 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        $user = User::find($profile)->first();
+        $user = User::where('id',$profile->user_id)->first();
         $countries = Country::all();
         $roles = Role::all();
-        return view('admin.users.create',compact('user','roles'));
+        return view('admin.users.create',compact('roles','countries','user'));
     }
 
     /**
@@ -110,7 +113,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        //
+        dd('hello');
     }
 
     
@@ -123,7 +126,7 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        //
+        dd($profile);
     }
 
      

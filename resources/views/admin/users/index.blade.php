@@ -50,14 +50,15 @@
         <td><img src="{{asset('storage/'.@$user->profile->thumbnail)}}" alt="{{@$user->profile->name}}" class="img-responsive" height="50"/></td>
        
         <td>{{$user->created_at}}</td>
-        <td><a class="btn btn-info btn-sm" href="{{route('admin.profile.edit', $user->profile)}}">Edit</a> | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$user->id}}')">Delete</a>
+        <td><a class="btn btn-info btn-sm" href="{{route('admin.profile.edit', $user->profile->slug)}}">Edit</a> |
+           <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$user->id}}')">Delete</a>
         <form id="delete-user-{{$user->id}}" action="{{ route('admin.profile.destroy', $user->profile->slug) }}" method="POST" style="display: none;">
 
           @method('DELETE')
-          @csrf
+          @csrf  
               </form>
         </td>
-       
+      
       </tr>
       @endforeach
       @else

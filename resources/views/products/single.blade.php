@@ -9,7 +9,7 @@
               <div class="mb-4">
                   <div class="row">
                       <div class="col-md-4">
-                            <img class="img-thumbnail" src="{{asset('storage/app/public/'.$product->thumbnail)}}">
+                            <img class="img-thumbnail" src="{{asset('storage/'.$product->thumbnail)}}">
                       </div>
                       <div class="col-md-8 d-block">
                             

@@ -54,7 +54,7 @@
           <strong>{{"product"}}</strong>
           @endif
 		</td>
-		<td>${{$product->price}}</td>
+        <td>${{$product->price}}</td>
         <td><img src="{{asset('storage/'.$product->thumbnail)}}" alt="{{$product->title}}" class="img-responsive" height="50"/></td>
        
         <td>{{$product->created_at}}</td>

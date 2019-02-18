@@ -6,12 +6,14 @@
 @endsection
 @section('content')
 <h2 class="modal-title">Add/Edit users</h2>
-<form  action="@if(isset($user)) {{route('admin.profile.update', $user)}} @else {{route('admin.profile.store')}} @endif" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-	<div class="row">
-		@csrf
-		@if(isset($user))
-		@method('PUT')
-		@endif
+<form  action="@if(isset($user)) {{route('admin.profile.update', $user->profile)}} @else {{route('admin.profile.store')}} @endif" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+	
+			@if(isset($user))
+			@method('PUT')
+			@endif
+			@csrf
+		<div class="row">
+			
 		<div class="col-lg-9">
 			<div class="form-group row">
 				<div class="col-sm-12">
@@ -35,7 +37,7 @@
 				<div class="col-sm-12 col-md-6">
 					<label class="form-control-label">Name: </label>
 					<input type="text" id="txturl" name="name" class="form-control " value="{{@$user->profile->name}}" />
-					<p class="small">{{route('admin.profile.index')}}/<span id="url">{{$user->profile->slug}}</span>
+					<p class="small">{{route('admin.profile.index')}}/<span id="url">{{@$user->profile->slug}}</span>
                     <input type="hidden" name="slug" id="slug" value="{{@$user->profile->slug}}">
                     </p>
             </div>

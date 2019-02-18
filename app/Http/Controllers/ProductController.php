@@ -148,8 +148,10 @@ class ProductController extends Controller
             $extension = ".".$request->thumbnail->getClientOriginalExtension();
             $name = basename($request->thumbnail->getClientOriginalName(), $extension).time();
             $name = $name.$extension;
-            $path = $request->thumbnail->storeAs('images', $name);
+            $path = $request->thumbnail->storeAs('images', $name,'public');
             $product->thumbnail = $path;
+          }else{
+            $product->thumbnail = 'images/no-thumbnail.jpeg';
           }
          $product->title =$request->title;
          //$product->slug = $request->slug;

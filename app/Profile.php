@@ -21,8 +21,8 @@ class Profile extends Model
     public function getRouteKeyName(){
    	 return 'slug';
 	}
-	public function users(){
-		return $this->belongsToMany('App\User');
+	public function user(){
+		return $this->belongsTo('App\User');
 	}
 	public function country(){
 		return $this->belongsTo('App\Country');
