@@ -30,8 +30,8 @@
         <th>Title</th>
         <th>Description</th>
         <th>Slug</th>
-		<th>Categories</th>
-		<th>Price</th>
+		    <th>Categories</th>
+		    <th>Price</th>
         <th>Thumbnail</th>
         <th>Date Created</th>
         <th>Actions</th>

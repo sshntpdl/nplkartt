@@ -26,7 +26,7 @@ class StoreUserProfile extends FormRequest
         return [
             'name'=>'required',
             'slug'=>'required|unique:profiles,slug,'.$this->slug.',slug',
-            'email'=>'required|email|unique:users,slug,'.$this->slug.',slug',
+            'email'=>'required|email|unique:users,email,'.$this->email.',email',
             'password'=>'required|same:password_confirm',
             'password_confirm'=>'required',
             'status'=>'required',

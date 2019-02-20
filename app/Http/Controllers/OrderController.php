@@ -25,7 +25,7 @@ class OrderController extends Controller
           $cart = Session::get('cart');
           return view('products.checkout', compact('cart')); 
     }
-
+  
     /**
      * Show the form for creating a new resource.
      *
@@ -65,8 +65,10 @@ class OrderController extends Controller
             $checkout = Customer::create($customer);
             foreach($cart->getContents() as $slug=> $product){
                 $products=[
-                    'user_id'=>$checkout->id,
+                    'customer_id'=>$checkout->id,
                     'product_id'=>$product['product']->id,
+                    'customer_name'=>$request->userName,
+                    'product_name'=>$product['product']->title,
                     'qty'=>$product['qty'],
                     'status'=>'Pending',
                     'price'=>$product['price'],
@@ -90,7 +92,7 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show()
     {
         //
     }

@@ -22,7 +22,6 @@ class ProfileController extends Controller
     public function index()
     {
         $users = User::with('role','profile')->paginate(5);
-
         return view('admin.users.index',compact('users'));
     }
 
@@ -48,8 +47,8 @@ class ProfileController extends Controller
     public function store(StoreUserProfile $request)
     {
         dd('store');
-        $path = 'images/profile/no-thumbnail.jpg';
-      if($request->has('thumbnail')){
+       $path = 'images/profile/no-thumbnail.jpg';
+       if($request->has('thumbnail')){
        $extension = ".".$request->thumbnail->getClientOriginalExtension();
        $name = basename($request->thumbnail->getClientOriginalName(), $extension).time();
        $name = $name.$extension;

@@ -33,15 +33,11 @@ Route::group(['as'=>'cart.', 'prefix'=>'cart'], function(){
 });
 
 Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], function(){
-    Route::get('category/{category}/remove','CategoryController@remove')->name('category.remove');
-	
-
-    Route::get('product/{product}/remove','ProductController@remove')->name('product.remove');
+   
 
     
     Route::view('product/extras', 'admin.partials.extras')->name('product.extras');
 
-	Route::get('profile/{profile}/remove','ProfileController@remove')->name('profile.remove');
 	
     Route::view('profile/roles','admin.partials.extras')->name('profile.extras');
 
@@ -53,4 +49,5 @@ Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], 
     Route::resource('product','ProductController');
     Route::resource('category','CategoryController');
     Route::resource('profile','ProfileController');
+    Route::resource('order','adminOrderController');
 });

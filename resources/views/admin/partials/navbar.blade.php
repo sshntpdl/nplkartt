@@ -7,7 +7,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link @if(request()->url() == route('admin.order.index')) {{'active'}} @endif" href="{{route('admin.order.index')}}">
           <span data-feather="file"></span>
           Orders
         </a>
@@ -37,7 +37,7 @@
       <li class="nav-item">
         <a class="nav-link  @if(request()->url() == route('admin.profile.index')) {{'active'}} @else {{''}} @endif" href="{{route('admin.profile.index')}}">
           <span data-feather="users"></span>
-          Customers
+          Users
         </a>
       </li>
   

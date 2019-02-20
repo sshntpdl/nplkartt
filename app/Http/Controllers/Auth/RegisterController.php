@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -63,16 +66,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user=User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        if($user){
-            Profile::create([
-                'user_id'=>$user->id,
-                'slug' => $user->id,
-			    'thumbnail' => 'image/profile/no-thumbnail.jpg',
-            ]);
-        }
+        return $user;
     }
+    protected function registered(Request $request, $user) {
+		Profile::create([
+			'user_id' => $user->id,
+			'slug' => $user->id,
+			'thumbnail' => 'image/profile/no-thumbnail.jpg',
+        ]);
+        return redirect('/home');
+	}
+    
 }
