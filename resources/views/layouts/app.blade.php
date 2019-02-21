@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -20,11 +19,9 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-laravel" style="height:30px;color:azure;color:white;background-color:black;">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -32,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <p class="pt-2"><span data-feather="phone" style="height:15px;"></span>Customer Care</p>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -47,7 +44,7 @@
                             </li>
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a style="color:white;" id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->email }} <span class="caret"></span>
                                 </a>
 
@@ -68,6 +65,16 @@
                 </div>
             </div>
         </nav>
+        <div class="lower-header" style="height:75px;">
+            <div class="col-sm-4 col-md-6 col-ls-6">
+                <span class="navbar-nav float-left" style="padding:15px;color:yellowgreen;"><h1>NPL <i data-feather="shopping-cart"></i></h1></span>
+            </div>   
+            <div class="float-left col-sm-4 col-md-6 col-ls-6">
+                <input type="text" placeholder="Search Here" class="form-control col-ls-8" style="padding:10px;margin-left:20%;margin-top:10px;">
+            </div> <span class="float-left" data-feather="search" style="margin-left:9%;margin-top:10px;background:yellowgreen;height:45px;width:40px;padding:5px;border-radius:5px;"></span>
+            <div class="float-left" style="background:yellowgreen;border-radius:25px;margin-left:9%;margin-top:0.65%;width:55px;height:55px;size:2px;padding:10px;" data-feather="shopping-bag"></div><span class="badge badge-danger" style="margin-top:0.1%;margin-left:-0.8%;">0</span>
+            <div style="margin-top:-0.5%;"><b>My Shopping Bag</b><br><small>No Items in Bag</small></div>
+        </div>
 
         <section class="jumbotron text-center">
             <div class="container">

@@ -50,7 +50,7 @@
 		<div class="form-group row">
             <div class="col-sm-12 col-md-6">
 				<label class="form-control-label">Password: </label>
-				<input type="password" id="password" name="password" class="form-control " value="{{@$user->profile->name}}" />
+				<input type="password" id="password" name="password" class="form-control " value="" />
 
 			</div>
 			<div class="col-sm-12 col-md-6">
@@ -93,7 +93,7 @@
 			<div class="col-sm-12">
 				<label class="form-control-label">Address: </label>
 				<div class="input-group mb-3">
-                    <input type="text" name="address" class="form-control " value="{{@$user->address}}" />    
+                    <input type="text" name="address" class="form-control " value="{{@$user->profile->address}}" />    
                 </div>
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 			<div class="col-sm-6 col-md-3">
 				<label class="form-control-label">Phone: </label>
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" name="phone" placeholder="Phone" value="{{@$user->phone}}" />
+					<input type="text" class="form-control" name="phone" placeholder="Phone" value="{{@$user->profile->phone}}" />
 
 				</div>
 			</div>
@@ -142,12 +142,12 @@
 			<li class="list-group-item">
 				<div class="input-group mb-3">
 					<div class="custom-file ">
-						<input type="file"  class="custom-file-input" name="thumbnail" id="thumbnail">
+						<input type="file"  class="custom-file-input" name="thumbnail" id="thumbnail" value="{{@$user->profile->thumbnail}}">
 						<label class="custom-file-label" for="thumbnail">Choose file</label>
 					</div>
 				</div>
 				<div class="img-thumbnail  text-center">
-					<img src="@if(isset($user)) {{asset('storage/'.$user->thumbnail)}} @else {{asset('images/no-thumbnail.jpg')}} @endif" id="imgthumbnail" class="img-fluid" alt="">
+					<img src="@if(isset($user)) {{asset('storage/'.$user->profile->thumbnail)}} @else {{asset('storage/images/no-thumbnail.jpg')}} @endif" id="imgthumbnail" class="img-fluid" alt="">
 				</div>
 			</li>
 			<li class="list-group-item">

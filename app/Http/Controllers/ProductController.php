@@ -44,7 +44,7 @@ class ProductController extends Controller
      */
     public function store(StoreProduct $request)
     {
-       $path = 'images/no-thumbnail.jpeg';
+       $path = 'images/no-thumbnail.jpg';
        if($request->has('thumbnail')){
        $extension = ".".$request->thumbnail->getClientOriginalExtension();
        $name = basename($request->thumbnail->getClientOriginalName(), $extension).time();
@@ -151,7 +151,7 @@ class ProductController extends Controller
             $path = $request->thumbnail->storeAs('images', $name,'public');
             $product->thumbnail = $path;
           }else{
-            $product->thumbnail = 'images/no-thumbnail.jpeg';
+            $product->thumbnail = 'images/no-thumbnail.jpg';
           }
          $product->title =$request->title;
          //$product->slug = $request->slug;

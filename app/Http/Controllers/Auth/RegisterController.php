@@ -76,7 +76,7 @@ class RegisterController extends Controller
 		Profile::create([
 			'user_id' => $user->id,
 			'slug' => $user->id,
-			'thumbnail' => 'image/profile/no-thumbnail.jpg',
+			'thumbnail' => 'images/profile/no-thumbnail.jpg',
         ]);
         return redirect('/home');
 	}

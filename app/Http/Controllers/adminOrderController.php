@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Order;
 use App\Customer;
+use App\Http\Requests\StoreOrder;
 use Illuminate\Support\Facades\DB;
 
 class adminOrderController extends Controller
@@ -39,9 +40,45 @@ class adminOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOrder $request)
     {
-        dd('store');
+       
+        $order=[];
+        $checkout=[];
+       
+            $customer = [
+                "firstName"=>$request->firstName,
+                "lastName"=>$request->lastName,
+                "userName"=>$request->userName,
+                "email"=>$request->email,
+                "address1"=>$request->address1,
+                "address2"=>$request->address2,
+                "country"=>$request->country,
+                "state"=>$request->state,
+                "zip"=>$request->zip,
+            ];
+            DB::beginTransaction();
+            $checkout = Customer::create($customer);
+           
+                $products=[
+                    'customer_id'=>$checkout->id,
+                    'product_id'=>1,
+                    'customer_name'=>$request->userName,
+                    'product_name'=>$request->productName,
+                    'qty'=>$request->productQty,
+                    'status'=>$request->status,
+                    'price'=>$request->productPrice,
+                    'payment_id'=>0,
+                ];
+                $order = Order::create($products);
+            if($checkout && $order){
+                DB::commit();
+                return redirect('admin/order');
+            }else{
+                DB::rollback();
+                return redirect('admin')->with('message','Invalid Activity'); 
+            }
+       
     }
 
     /**
@@ -77,9 +114,18 @@ class adminOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request , Order $order)
     {
-        dd('update');
+        $order->customer_name=$request->userName;
+        $order->product_name=$request->productName;
+        $order->qty=$request->productQty;
+        $order->status=$request->status;
+        $order->price=$request->productPrice;
+        if($order->save()){
+            return redirect('admin/order')->with('message','Order successfully Updated');
+        }else{
+            return redirect('admin/order')->with('message','Order failed to Update');
+        }
     }
 
     /**
@@ -88,8 +134,12 @@ class adminOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        dd('destroy'.$id);
+        if($order->forceDelete()){
+            return redirect()->back()->with('message',"Record Succesfully Deleted");
+        }else{
+            return redirect()->back()->with('message',"Error deleting record");
+        }
     }
 }

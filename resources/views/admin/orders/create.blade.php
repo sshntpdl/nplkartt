@@ -4,7 +4,7 @@
  <li class="breadcrumb-item active" aria-current="page">Orders</li>
 @endsection
 @section('content')
-
+<h2 class="modal-title">Add/Edit Orders</h2>
 <form action="@if(isset($order)) {{route('admin.order.update', $order)}} @else {{route('admin.order.store')}} @endif" method="post" accept-charset="utf-8">
         @csrf
         @if(isset($order))
@@ -74,8 +74,8 @@
   <div class="mb-3">
     <label for="address2">Status</label>
     <select class="form-control" id="status" name="status">
-            <option value="0" @if(isset($order) && $order->status == 'Pending') {{'selected'}} @endif >Pending</option>
-            <option value="1" @if(isset($order) && $order->status == 'Publish') {{'selected'}} @endif>Publish</option>
+            <option value="Pending" @if(isset($order) && $order->status == 'Pending') {{'selected'}} @endif >Pending</option>
+            <option value="Publish" @if(isset($order) && $order->status == 'Publish') {{'selected'}} @endif>Publish</option>
     </select>
 </div>
 
@@ -101,6 +101,18 @@
         Zip code required.
       </div>
     </div>
+  </div><br>
+  <div class="mb-3">
+    <label for="productName">Product Name:</label>
+    <input type="text" name="productName" class="form-control" id="productName "  value="{{@$order->product_name}}">
+  </div>
+  <div class="mb-3">
+    <label for="productQty">Product Qty:</label>
+    <input type="text" name="productQty" class="form-control" id="productQty "  value="{{@$order->qty}}">
+  </div>
+  <div class="mb-3">
+    <label for="productPrice">Product Price:</label>
+    <input type="text" name="productPrice" class="form-control" id="productPrice "  value="{{@$product->price}}">
   </div>
   
  

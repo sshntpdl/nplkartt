@@ -10,7 +10,9 @@ use App\Profile;
 use App\Role;
 use App\State;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -45,8 +47,7 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUserProfile $request)
-    {
-        dd('store');
+    {;
        $path = 'images/profile/no-thumbnail.jpg';
        if($request->has('thumbnail')){
        $extension = ".".$request->thumbnail->getClientOriginalExtension();
@@ -112,7 +113,31 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        dd('hello');
+        $user=User::where('id',$profile->user_id)->first();
+        if($request->has('thumbnail')){
+            Storage::delete($profile->thumbnail);
+            $extension = ".".$request->thumbnail->getClientOriginalExtension();
+            $name = basename($request->thumbnail->getClientOriginalName(), $extension).time();
+            $name = $name.$extension;
+            $path = $request->thumbnail->storeAs('images/profile', $name,'public');
+            $profile->thumbnail = $path;
+          }else{
+            //$profile->thumbnail = 'images/no-thumbnail.jpg';
+          }
+          $profile->name=$request->name;
+          $profile->address=$request->address;
+          $profile->phone=$request->phone;
+          $profile->country_id=$request->country_id;
+          $profile->state_id=$request->state_id;
+          $profile->city_id=$request->city_id;
+          $user->email=$request->email;
+          $user->status=$request->status;
+          $user->password= Hash::make($request->password);
+          if($profile->save() && $user->save()){
+              return redirect('admin/profile')->with('message','Record Successfully Updated');
+          }else{
+              return redirect('admin/profile')->with('message','Record Failed to Update');
+          }
     }
 
     
@@ -125,7 +150,10 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        dd($profile);
+        $user=User::where('id',$profile->user_id)->first();
+        if($profile->forceDelete() && $user->forceDelete()){
+            return redirect()->back()->with('message','User Successfully Deleted');
+        }
     }
 
      

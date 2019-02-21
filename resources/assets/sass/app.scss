@@ -10,9 +10,11 @@
 @import '~select2/dist/css/select2.css';
 
 .navbar-laravel {
-  background-color: #fff;
+  background-color:red;
+  color: rgb(247, 243, 243);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
 :root {
   --jumbotron-padding-y: 1rem;
 }
@@ -93,4 +95,5 @@ span.price {
   max-height: 75px;
   object-fit: cover;
 }
+
 /* ends cart page css */

@@ -50,4 +50,5 @@ Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], 
     Route::resource('category','CategoryController');
     Route::resource('profile','ProfileController');
     Route::resource('order','adminOrderController');
+    Route::resource('service','ServiceCentersController');
 });

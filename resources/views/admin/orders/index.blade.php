@@ -53,7 +53,7 @@
         <td>{{$order->created_at}}</td>
         <td><a class="btn btn-info btn-sm" href="{{route('admin.order.edit',$order)}}">Edit</a> |
            <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$order->id}}')">Delete</a>
-        <form id="delete-user-{{$order->id}}" action="{{ route('admin.order.destroy',$order->id) }}" method="POST" style="display: none;">
+        <form id="delete-user-{{$order->id}}" action="{{ route('admin.order.destroy',$order) }}" method="POST" style="display: none;">
 
           @method('DELETE')
           @csrf  
