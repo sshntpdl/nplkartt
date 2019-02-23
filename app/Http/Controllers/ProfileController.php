@@ -87,7 +87,8 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        $user=User::where('id',$profile->user_id)->first();
+        return view('layouts.partials.profile',compact('profile','user'));
     }
 
     /**
@@ -170,5 +171,8 @@ class ProfileController extends Controller
         else{
             return 0;
         }
+    }
+    public function profileView(Profile $profile){
+
     }
 }

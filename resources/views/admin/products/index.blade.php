@@ -1,6 +1,6 @@
 @extends('admin.app')
 @section('breadcrumbs')
-  <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+ <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
  <li class="breadcrumb-item active" aria-current="page">Products</li>
 @endsection
 @section('content')
@@ -13,14 +13,26 @@
 		  @endif
 		</div>
 	  </div>
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-	<h2 class="h2">Products List</h2>
-
-  <div class="btn-toolbar mb-2 mb-md-0">
-    <a href="{{route('admin.product.create')}}" class="btn btn-sm btn-outline-secondary">
+<div class="justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+	<h2 class="h2 float-left">Products List</h2>
+  
+  
+    <a href="{{route('admin.product.create')}}" class="btn btn-sm btn-outline-secondary float-left ml-4 mt-1">
       Add Product
     </a>
-  </div>
+
+  <form action="{{route('admin.product.search')}}" method="POST" role="search">
+      @csrf
+      <div class="input-group col-3 float-right">
+          <input type="text" class="form-control" name="q" id="txtSearch" placeholder="Search Product" value="{{@$value}}">
+           <span class="input-group-btn">
+              <button type="submit" class="btn btn-default">
+                  <span data-feather="search"></span>
+              </button>
+          </span>
+      </div>
+  </form>
+  
 </div>
 <div class="table-responsive">
   <table class="table table-striped table-sm">
@@ -63,7 +75,7 @@
 
           @method('DELETE')
           @csrf
-                                    </form>
+        </form>
         </td>
        
       </tr>

@@ -20,6 +20,9 @@ Route::resource('checkout','OrderController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('/profile','UserProfileController')->middleware('auth');
+
 Route::group(['as'=>'products.','prefix'=>'products'],function(){
     Route::get('/','ProductController@show')->name('all');
     Route::get('/{product}','ProductController@single')->name('single');
@@ -43,7 +46,7 @@ Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], 
 
     Route::get('profile/states/{id?}','ProfileController@getStates')->name('profile.states');
     Route::get('profile/cities/{id?}','ProfileController@getCities')->name('profile.cities');
-
+    Route::post('product/search','ProductController@search')->name('product.search');
 
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::resource('product','ProductController');

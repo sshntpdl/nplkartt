@@ -49,12 +49,13 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{route('profile.show',Auth::user()->profile)}}" style='margin-top:-8px;margin-bottom:-5px;'>Profile <span data-feather="user" style="float:right;width:18px;"></span></a><hr>
+                                    <a class="dropdown-item" style='margin-top:-8px;margin-bottom:-5px;' href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
+                                   
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -74,35 +75,21 @@
             </div> <span class="float-left" data-feather="search" style="margin-left:9%;margin-top:10px;background:yellowgreen;height:45px;width:40px;padding:5px;border-radius:5px;"></span>
             <div class="float-left" style="background:yellowgreen;border-radius:25px;margin-left:9%;margin-top:0.65%;width:55px;height:55px;size:2px;padding:10px;" data-feather="shopping-bag"></div><span class="badge badge-danger" style="margin-top:0.1%;margin-left:-0.8%;">0</span>
             <div style="margin-top:-0.5%;"><b>My Shopping Bag</b><br><small>No Items in Bag</small></div>
-        </div>
+        </div><hr>
 
-        <section class="jumbotron text-center">
-            <div class="container">
-              <h1 class="jumbotron-heading">Album example</h1>
-              <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-              <p>
-                <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-              </p>
-            </div>
-          </section>
-          <div class="container-fluid">
+    
+        <div class="container">
           <div class="row py-2">
-            <div class="col-md-3">
-                    @section('sidebar')
-                        @include('layouts.partials.sidebar')
-                    @show
-            </div>
             <div class="col-md-9">
                 @if(session()->has('message'))
                     <p class="alert alert-success">
                         {{ session()->get('message') }}
                     </p>
                 @endif
-               @yield('content')
             </div>
           </div>
-        </div>
+         </div>
+        @yield('content')
     </div>
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
     @yield('scripts')

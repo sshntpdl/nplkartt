@@ -64,7 +64,7 @@
 							<span class="input-group-text" id="basic-addon1">$</span>
 					</div>
 
-                    <input type="text" class="form-control" name="discount_price" placeholder="0.00" aria-label="discount_price" aria-describedby="discount" value="{{@$product->discount_price}}" />
+                    <input type="text" class="form-control" name="discount_price" placeholder="0.00" aria-label="discount_price" value="{{@$product->discount_price}}" />
                 </div>
 			</div>
 		</div>
@@ -72,15 +72,48 @@
 			<div class="card col-sm-12 p-0 mb-2">
 				<div class="card-header align-items-center">
 					<h5 class="card-title float-left">Extra Options</h5>
-					<div class="float-right" >
-						<button type="button" id="btn-add" class="btn btn-primary btn-sm">+</button>
-						<button type="button" id="btn-remove" class="btn btn-danger btn-sm">-</button>
-					</div>
-
 				</div>
+				<!-- Size Options -->
 				<div class="card-body" id="extras">
+					<div class="row align-items-center options">
+						<div class="col-sm-12">
+							<h5 class="pt-2 pb-2 bg-primary text-center" style="color:#fff;">Size</h5>
+						</div>
 					
+						<div class="col-sm-4">
+							<label class="form-control-label">Option</label>
+							<input type="text" name="size_options" class="form-control" value="{{@$product->size_options}}" placeholder="size">
+						</div>
+						<div class="col-sm-8">
+							<label class="form-control-label">Values</label>
+							<input type="text" name="size_values" class="form-control" value="{{@$product->size_values}}" placeholder="options1 | option2 | option3" />
+							<label class="form-control-label">Additional Prices</label>
+							<input type="text" name="size_prices" class="form-control" placeholder="price1 | price2 | price3" />
+						</div>
+						<br><hr>
+					</div>
 				</div>
+				<!-- Color Options -->
+				<div class="card-body" id="extras">
+					<div class="row align-items-center options">
+						<div class="col-sm-12">
+							<h5 class="pt-2 pb-2 bg-primary text-center" style="color:#fff;">Color</h5>
+						</div>
+					
+						<div class="col-sm-4">
+							<label class="form-control-label">Option</label>
+							<input type="text" name="color_options" class="form-control" value="{{@$product->color_options}}" placeholder="color">
+						</div>
+						<div class="col-sm-8">
+							<label class="form-control-label">Values</label>
+							<input type="text" name="color_values" value="{{@$product->color_values}}" class="form-control" placeholder="options1 | option2 | option3" />
+							<label class="form-control-label">Additional Prices</label>
+							<input type="text" name="color_prices" value="{{@$product->color_prices}}" class="form-control" placeholder="price1 | price2 | price3" />
+						</div>
+						<br><hr>
+					</div>
+				</div>
+				<!-- Add Further Option Here -->
 			</div>
 		</div>
 	</div>
@@ -202,9 +235,7 @@ $('#btn-add').on('click', function(e){
 			$('#extras').append(data);
 		})
 })
-$('#btn-remove').on('click', function(e){	
-	$('.options:last').remove();
-})
+
 $('#featured').on('change', function(){
 	if($(this).is(":checked"))
 		$(this).val(1)

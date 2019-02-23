@@ -57,11 +57,16 @@ class ProductController extends Controller
            'description'=>$request->description,
            'thumbnail' => $path,
            'status' => $request->status,
-           'options' => isset($request->extras) ? json_encode($request->extras) : null,
+           'size_options' => isset($request->size_options) ? ($request->size_options)  : null,
+           'size_values' => isset($request->size_values) ? ($request->size_values)  : null,
+           'size_prices' => isset($request->size_prices) ? ($request->size_prices)  : null,
+           'color_options' => isset($request->color_options) ? ($request->color_options)  : null,
+           'color_values' => isset($request->color_values) ? ($request->color_values)  : null,
+           'color_prices' => isset($request->color_prices) ? ($request->color_prices)  : null,
            'featured' => ($request->featured) ? $request->featured : 0,
            'price' => $request->price,
-           'discount'=>$request->discount ? $request->discount : 0,
-           'discount_price' => ($request->discount_price) ? $request->discount_price : 0,
+           //'discount'=>$request->discount ? $request->discount : 0,
+           'discount_price' => isset($request->discount_price) ? $request->discount_price : 0,
        ]);
        if($product){
             $product->categories()->attach($request->category_id,['created_at'=>now(), 'updated_at'=>now()]);
@@ -84,6 +89,14 @@ class ProductController extends Controller
         $categories=Category::with('childrens')->get();;
         $products=Product::with('categories')->paginate(3);
         return view('products.all',compact('categories','products'));
+    }
+
+    public function search(Request $request){
+        $value=$request->q;
+        $products = Product::where('title','LIKE','%'.$value.'%')->orWhere('description','LIKE','%'.$value.'%')
+        ->orWhere('slug','LIKE','%'.$value.'%')
+        ->orWhere('price','LIKE','%'.$value.'%')->paginate(10);
+        return view('admin.products.index',compact('products','value'));
     }
 
     public function single(Product $product){
@@ -151,7 +164,7 @@ class ProductController extends Controller
             $path = $request->thumbnail->storeAs('images', $name,'public');
             $product->thumbnail = $path;
           }else{
-            $product->thumbnail = 'images/no-thumbnail.jpg';
+            //$product->thumbnail = 'images/no-thumbnail.jpg';
           }
          $product->title =$request->title;
          //$product->slug = $request->slug;
@@ -159,8 +172,14 @@ class ProductController extends Controller
          $product->status = $request->status;
          $product->featured = ($request->featured) ? $request->featured : 0;
          $product->price = $request->price;
-         $product->discount = $request->discount ? $request->discount : 0;
-         $product->discount_price = ($request->discount_price) ? $request->discount_price : 0;
+         //$product->discount = $request->discount ? $request->discount : 0;
+         $product->discount_price = ($request->discount_price) ? ($request->discount_price) : 0;
+         $product->size_options =  ($request->size_options) ? ($request->size_options) : null;
+         $product->size_values =  ($request->size_values) ? ($request->size_values) : null;
+         $product->size_prices =  ($request->size_prices) ? ($request->size_prices) : null;
+         $product->color_options =  ($request->color_options) ? ($request->color_options) : null;
+         $product->color_values =  ($request->color_values) ? ($request->color_values) : null;
+         $product->color_prices =  ($request->color_prices) ? ($request->color_prices) : null;
          $product->categories()->detach();
          
          if($product->save()){
