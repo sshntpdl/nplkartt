@@ -91,6 +91,13 @@ class ProfileController extends Controller
         return view('layouts.partials.profile',compact('profile','user'));
     }
 
+    public function search(Request $request){
+        $value=$request->q;
+        $users = User::where('email','LIKE','%'.$value.'%')
+        ->paginate(10);
+        return view('admin.users.index',compact('users','value'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -132,8 +139,11 @@ class ProfileController extends Controller
           $profile->state_id=$request->state_id;
           $profile->city_id=$request->city_id;
           $user->email=$request->email;
+          $user->role_id=$request->role_id;
           $user->status=$request->status;
-          $user->password= Hash::make($request->password);
+          if(isset($request->password)){
+            $user->password= Hash::make($request->password);
+          }
           if($profile->save() && $user->save()){
               return redirect('admin/profile')->with('message','Record Successfully Updated');
           }else{

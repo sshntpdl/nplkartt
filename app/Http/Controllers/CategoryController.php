@@ -57,6 +57,13 @@ class CategoryController extends Controller
         //
     }
 
+    public function search(Request $request){
+        $value=$request->q;
+        $categories = Category::where('title','LIKE','%'.$value.'%')->orWhere('description','LIKE','%'.$value.'%')
+        ->paginate(10);
+        return view('admin.categories.index',compact('categories','value'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

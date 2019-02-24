@@ -57,9 +57,6 @@ class OrderController extends Controller
                 "email"=>$request->email,
                 "address1"=>$request->address1,
                 "address2"=>$request->address2,
-                "country"=>$request->country,
-                "state"=>$request->state,
-                "zip"=>$request->zip,
             ];
             DB::beginTransaction();
             $checkout = Customer::create($customer);
@@ -95,6 +92,15 @@ class OrderController extends Controller
     public function show()
     {
         //
+    }
+
+    public function search(Request $request){
+        $value=$request->q;
+        $orders = Order::where('customer_name','LIKE','%'.$value.'%')->orWhere('product_name','LIKE','%'.$value.'%')
+        ->orWhere('price','LIKE','%'.$value.'%')
+        ->orWhere('status','LIKE','%'.$value.'%')
+        ->paginate(10);
+        return view('admin.orders.index',compact('orders','value'));
     }
 
     /**

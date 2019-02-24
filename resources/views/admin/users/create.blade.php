@@ -98,35 +98,6 @@
 			</div>
 		</div>
 		<div class="form-group row">
-            
-            <div class="col-sm-6 col-md-3">
-				<label class="form-control-label">Country: </label>
-				<div class="input-group mb-3">
-					<select name="country_id" class="form-control" id="countries">
-						<option value="0">Select a Country</option>
-						@foreach($countries as $country)
-						<option value="{{$country->id}}">{{$country->name}}</option>
-						@endforeach
-					</select>
-				</div>
-            </div>
-			<div class="col-sm-6 col-md-3">
-				<label class="form-control-label">State: </label>
-				<div class="input-group mb-3">
-					<select name="state_id" class="form-control" id="states">
-						<option value="0">Select a State</option>
-					</select>
-				</div>
-			</div>
-
-			<div class="col-sm-6 col-md-3">
-				<label class="form-control-label">City: </label>
-				<div class="input-group mb-3">
-					<select name="city_id" class="form-control" id="cities">
-
-					</select>
-				</div>
-			</div>
 			<div class="col-sm-6 col-md-3">
 				<label class="form-control-label">Phone: </label>
 				<div class="input-group mb-3">

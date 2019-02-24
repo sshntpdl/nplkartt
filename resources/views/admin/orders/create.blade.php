@@ -10,6 +10,27 @@
         @if(isset($order))
             @method('PUT')
         @endif
+        <div class="form-group row">
+          <div class="col-sm-12">
+              @if($errors->any())
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach($errors->all() as $error)
+                          <li>{{$error}}</li>
+                          @endforeach
+                      </ul>
+
+                  </div>
+              @endif
+          </div>
+          <div class="col-sm-12">
+                  @if(session()->has('message'))
+                      <div class="alert alert-success">
+                          {{session('message')}}
+                      </div>
+                  @endif
+          </div> 
+        </div>
   <div class="row">
     <div class="col-md-6 mb-3">
       <label for="firstName">First name</label>
@@ -78,7 +99,7 @@
             <option value="Publish" @if(isset($order) && $order->status == 'Publish') {{'selected'}} @endif>Publish</option>
     </select>
 </div>
-
+<!--
   <div class="row">
     <div class="col-md-5 mb-3">
       <label for="country">Country</label>
@@ -101,7 +122,7 @@
         Zip code required.
       </div>
     </div>
-  </div><br>
+  </div>--><br>
   <div class="mb-3">
     <label for="productName">Product Name:</label>
     <input type="text" name="productName" class="form-control" id="productName "  value="{{@$order->product_name}}">

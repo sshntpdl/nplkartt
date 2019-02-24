@@ -47,6 +47,9 @@ Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], 
     Route::get('profile/states/{id?}','ProfileController@getStates')->name('profile.states');
     Route::get('profile/cities/{id?}','ProfileController@getCities')->name('profile.cities');
     Route::post('product/search','ProductController@search')->name('product.search');
+    Route::post('category/search','CategoryController@search')->name('category.search');
+    Route::post('profile/search','ProfileController@search')->name('profile.search');
+    Route::post('order/search','OrderController@search')->name('order.search');
 
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::resource('product','ProductController');

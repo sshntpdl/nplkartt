@@ -29,9 +29,6 @@ class StoreOrder extends FormRequest
             "email"=>'required',
             "address1"=>'required',
             "address2"=>'required',
-            "country"=>'required',
-            "state"=>'required',
-            "zip"=>'required',
         ];
     }
 }

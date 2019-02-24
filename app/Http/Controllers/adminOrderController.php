@@ -53,9 +53,7 @@ class adminOrderController extends Controller
                 "email"=>$request->email,
                 "address1"=>$request->address1,
                 "address2"=>$request->address2,
-                "country"=>$request->country,
-                "state"=>$request->state,
-                "zip"=>$request->zip,
+                
             ];
             DB::beginTransaction();
             $checkout = Customer::create($customer);
@@ -116,12 +114,19 @@ class adminOrderController extends Controller
      */
     public function update(Request $request , Order $order)
     {
+        $customer=Customer::where('id',$order->customer_id)->first();
         $order->customer_name=$request->userName;
         $order->product_name=$request->productName;
         $order->qty=$request->productQty;
         $order->status=$request->status;
         $order->price=$request->productPrice;
-        if($order->save()){
+        $customer->email=$request->email;
+        $customer->firstName=$request->firstName;
+        $customer->lastName=$request->lastName;
+        $customer->userName=$request->userName;
+        $customer->address1=$request->address1;
+        $customer->address2=$request->address2;
+        if($order->save() && $customer->save() ){
             return redirect('admin/order')->with('message','Order successfully Updated');
         }else{
             return redirect('admin/order')->with('message','Order failed to Update');
