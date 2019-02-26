@@ -12,8 +12,16 @@
 */
 
 Route::get('/', function () {
+    //$user=App\User::find(1);
+    //$user->notify(new App\Notifications\AllNotification);
+    //Notification::route('mail','sshntpdl123@gmail.com')->notify(new App\Notifications\AllNotification($user));
     return view('welcome');
 });
+
+Route::get('markAsRead',function(){
+    auth()->user()->unReadNotifications->markAsRead();
+    return redirect()->back();
+})->name('markRead');
 
 Route::resource('checkout','OrderController');
 

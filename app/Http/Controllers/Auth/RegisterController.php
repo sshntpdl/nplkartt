@@ -7,6 +7,7 @@ use App\Profile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\NewuserNotification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 
@@ -70,6 +71,10 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $newusers=User::where('role_id','2')->get();
+        foreach($newusers as $newuser){
+        $newuser->notify(new NewuserNotification);
+        }
         return $user;
     }
     protected function registered(Request $request, $user) {

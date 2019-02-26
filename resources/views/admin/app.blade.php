@@ -26,16 +26,30 @@
                     </div>
 
 
-                   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+                  <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
                         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{route('admin.dashboard')}}">Company name</a>
                         <ul class="navbar-nav px-3">
-                            
-                            <li class="nav-item text-nowrap">
-                                <a class="nav-link float-right pr-3" href="{{route('home')}}"><span data-feather="bell"></span></a>
-                                <a class="nav-link float-right pr-3" href="{{route('home')}}">Home</a>
+                            <li><a class="nav-link pr-3" href="{{route('home')}}">Home</a></li>
+                            <li class="nav-item text-nowrap dropdown">
+                                <a class="nav-link dropdown-toggle pr-3" href="#" id="navbardrop" data-toggle="dropdown">
+                                    <span data-feather="bell"></span>
+                                    @if(auth()->user()->unreadNotifications->count())
+                                        <span class="badge badge-danger">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                    @endif
+                                </a>    
+                                <div class="dropdown-menu">
+                                        <a class="dropdown-item" style="color:green;" href="{{route('markRead')}}"><u>Mark All As Read</u></a>
+                                    @foreach(auth()->user()->unreadNotifications as $notification)
+                                        <a class="dropdown-item"  style="background-color:lightgray;" href="#">{{ $notification->data['data'] }}</a>
+                                    @endforeach
+                                    @foreach(auth()->user()->readNotifications as $notification)
+                                        <a class="dropdown-item" href="#">{{ $notification->data['data'] }}</a>
+                                    @endforeach
+                                </div>
                             </li>
                         </ul>
                     </nav>
+
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">

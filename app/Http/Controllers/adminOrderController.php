@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Order;
 use App\Customer;
+use App\User;
+use App\Notifications\NeworderNotification;
 use App\Http\Requests\StoreOrder;
 use Illuminate\Support\Facades\DB;
 
@@ -71,6 +73,10 @@ class adminOrderController extends Controller
                 $order = Order::create($products);
             if($checkout && $order){
                 DB::commit();
+                $users=User::where('role_id','2')->get();
+                foreach($users as $user){
+                $user->notify(new NeworderNotification);
+                }
                 return redirect('admin/order');
             }else{
                 DB::rollback();

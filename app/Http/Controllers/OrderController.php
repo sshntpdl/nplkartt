@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\User;
 use App\Customer;
 use Illuminate\Http\Request;
 use App\Cart;
 use Session;
 use App\Http\Requests\StoreOrder;
+use App\Notifications\NeworderNotification;
 use DB;
 
 class OrderController extends Controller
@@ -75,7 +77,12 @@ class OrderController extends Controller
             } 
             if($checkout && $order){
                 DB::commit();
+                $users=User::where('role_id','2')->get();
+                foreach($users as $user){
+                    $user->notify(new NeworderNotification);
+                }
                 return redirect('home');
+                
             }else{
                 DB::rollback();
                 return redirect('checkout')->with('message','Invalid Activity'); 
