@@ -15,14 +15,14 @@
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
         "jquery": "^3.2",
-        "laravel-mix": "^2.0",
+        "laravel-mix": "^2.1.14",
         "lodash": "^4.17.4",
         "popper.js": "^1.12",
         "vue": "^2.5.17"
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^11.2.0",
-        "feather-icons": "^4.17.0",
+        "feather-icons": "^4.19.0",
         "select2": "^4.0.6-rc.1"
     }
 }

@@ -27,7 +27,7 @@
       <div class="input-group col-3 float-right">
           <input type="text" class="form-control" name="q" id="txtSearch" placeholder="Search Product" value="{{@$value}}">
            <span class="input-group-btn">
-              <button type="submit" class="btn btn-default">
+              <button type="submit" class="btn btn-outline-secondary">
                   <span data-feather="search"></span>
               </button>
           </span>

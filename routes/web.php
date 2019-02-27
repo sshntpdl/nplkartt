@@ -45,7 +45,7 @@ Route::group(['as'=>'cart.', 'prefix'=>'cart'], function(){
 
 Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], function(){
    
-
+    Route::get('chart&reports', 'ChartController@index')->name('charts');
     
     Route::view('product/extras', 'admin.partials.extras')->name('product.extras');
 

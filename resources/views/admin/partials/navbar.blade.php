@@ -41,12 +41,12 @@
         </a>
       </li>
   
-      <!--<li class="nav-item">
-        <a class="nav-link" href="#">
-          <span data-feather="layers"></span>
-          Integrations
+      <li class="nav-item">
+        <a class="nav-link  @if(request()->url() == route('admin.charts')) {{'active'}} @else {{''}} @endif" href="{{route('admin.charts')}}">
+          <span data-feather="pie-chart"></span>
+          Charts & Reports
         </a>
-      </li>-->
+      </li>
     </ul>
     <!--<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
     <span>Saved reports</span>

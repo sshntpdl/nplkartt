@@ -83,8 +83,13 @@
             </tbody>
           </table>
         </div>
+
       </div>
+      
     </div>
+
+    @yield('charts')
+
   </div>
           
  @endsection
