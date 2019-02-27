@@ -18,32 +18,27 @@
     @yield('admin_css')
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-laravel" style="height:30px;color:azure;color:white;background-color:black;">
-            <div class="container">
+    <div id="container">
+        <nav class="navbar" style="background-color:black;">
+            <div class="row" style="width:100%;">
                 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <div class="col-6" style="width:100%;height:30px;color:azure;color:white;background-color:black;">
                         <p class="pt-2"><span data-feather="phone" style="height:15px;"></span>Customer Care</p>
-                    </ul>
+                    </div>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <div class="col-6 d-flex justify-content-end" style="width:100%;height:30px;color:azure;color:white;background-color:black;">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
+                            <div class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            <li class="nav-item">
+                            </div>
+                            <div class="nav-item">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
+                            </div>
                         @else
-                            <li class="nav-item dropdown">
+                            <div class="nav-item dropdown">
                                 <a style="color:white;" id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->email }} <span class="caret"></span>
                                 </a>
@@ -60,36 +55,101 @@
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
+                            </div>
                         @endguest
-                    </ul>
-                </div>
+                        </div>
+                
             </div>
         </nav>
-        <div class="lower-header" style="height:75px;">
-            <div class="col-sm-4 col-md-6 col-ls-6">
-                <span class="navbar-nav float-left" style="padding:15px;color:yellowgreen;"><h1>NPL <i data-feather="shopping-cart"></i></h1></span>
-            </div>   
-            <div class="float-left col-sm-4 col-md-6 col-ls-6">
-                <input type="text" placeholder="Search Here" class="form-control col-ls-8" style="padding:10px;margin-left:20%;margin-top:10px;">
-            </div> <span class="float-left" data-feather="search" style="margin-left:9%;margin-top:10px;background:yellowgreen;height:45px;width:40px;padding:5px;border-radius:5px;"></span>
-            <div class="float-left" style="background:yellowgreen;border-radius:25px;margin-left:9%;margin-top:0.65%;width:55px;height:55px;size:2px;padding:10px;" data-feather="shopping-bag"></div><span class="badge badge-danger" style="margin-top:0.1%;margin-left:-0.8%;">0</span>
-            <div style="margin-top:-0.5%;"><b>My Shopping Bag</b><br><small>No Items in Bag</small></div>
-        </div><hr>
-
-    
-        <div class="container">
-          <div class="row py-2">
-            <div class="col-md-9">
-                @if(session()->has('message'))
-                    <p class="alert alert-success">
-                        {{ session()->get('message') }}
-                    </p>
-                @endif
+        <div class="container-fluid" style="height:60px;z-index:55;">
+            <div class="row" style="background-color:white;">
+                <div class="col-xs-6 col-sm-6 col-md-3 col-ls-3">
+                    <span class="navbar-nav float-left" style="padding:10px;color:#408000;"><h1>NPL <i data-feather="shopping-cart"></i></h1></span>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-ls-6">   
+                    <div class="float-left" style="width:92%;">
+                        <input type="text" placeholder="Search Here" class="form-control" style="padding:10px;margin-top:10px;width:100%;">
+                    </div> <span class="float-left" data-feather="search" style="margin-top:10px;color:white;background:#408000;height:38px;width:5%;padding:5px;border-radius:5px;"></span>
+                </div>
+                <div class="cartIcon col-xs-6 col-sm-6 col-md-3 col-ls-3 d-inline-block">
+                    <div style="float:left;color:#408000;background:#f2ffe6;border-radius:25px;border:2px solid #408000;margin-left:25px;margin-top:0.65%;width:55px;height:55px;padding:13px;" data-feather="shopping-bag"></div><span class="badge badge-danger" style="float:left;margin-top:2%;margin-left:-0.8%;">0</span>
+                    <div style="padding:0px;margin-left:100px;margin-top:8px;"><b>My Shopping Bag</b><br><small>No Items in Bag</small></div>
+                </div>
             </div>
-          </div>
-         </div>
-        @yield('content')
+        {{-- Category Header Started --}}
+            <div class="row" style="background-color:white;">
+                <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3 ml-4 mr-xs-2 mr-sm-2" style="background-color:#408000;border-radius:9px;color:white;padding:8px;"><h5><strong>All Categories</strong><span class="float-right" data-feather="menu"></span></h5></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>HOME</h6></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>SHOP</h6></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>CART</h6></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>CHECKOUT</h6></div>
+                <div class="col-xs-12 col-sm-12 col-md-2 col-ls-2 p-2 d-flex justify-content-center"><h6>CONTACT US</h6></div>
+            </div>
+        {{-- Category Header Ends Here --}}
+        <div class="row py-2">
+                <div class="col-md-9">
+                    @if(session()->has('message'))
+                        <p class="alert alert-success">
+                            {{ session()->get('message') }}
+                        </p>
+                    @endif
+                </div>
+              </div>
+              {{-- Contents Starts Here --}}
+            <div class="row py-5">
+                @yield('content')
+            </div>
+            {{-- Contents Ends Here --}}
+            {{-- Footer Started --}}
+            <footer>
+                <div class="row">
+                    
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" style="font-size:1.2em;background-color:#333333;color:#999999;">
+                            <h4 class="pt-5" style="color:whitesmoke;"><strong>Contact Us</strong></h4>
+                            <p>Contrary to popular belief, 
+                                Lorem Ipsum is not simply random text. 
+                                It has root Contrary to popula Contrary.
+                            </p>
+                            <p><span data-feather="phone" style="color:#408000;"></span> +1215131516</p>
+                            <p><span data-feather="mail" style="color:#408000;"></span> vasma@gmail.com</p>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 pb-5" style="font-size:1.2em;background-color:#333333;color:#999999;">
+                            <h4 class="pt-5" style="color:whitesmoke;"><strong>INFORMATION</strong></h4>
+                            <ul>
+                                <li class="infoList">Home</li>
+                                <li class="infoList">Shop</li>
+                                <li class="infoList">Cart</li>
+                                <li class="infoList">Checkout</li>
+                                <li class="infoList">Contact Us</li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" style="font-size:1.2em;background-color:#333333;color:#999999;">
+                            <h4 class="pt-5" style="color:whitesmoke;"><strong>Follow Us</strong></h4>
+                            <ul class="list-inline">
+                                <li class="list-inline-item listIcon"><span data-feather="facebook"></span></li>
+                                <li class="list-inline-item listIcon"><span data-feather="twitter"></span></li>
+                                <li class="list-inline-item listIcon"><span data-feather="instagram"></span></li>
+                                <li class="list-inline-item listIcon"><span data-feather="linkedin"></span></li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" style="background-color:#333333;color:#999999;">
+                            <h4 class="pt-5" style="color:whitesmoke;"><strong>Opening Hours</strong></h4>
+                            <ul style="list-style-type:none;margin-left:-35px;">
+                                    <li class="infoList">Sun-Thurs <span class="float-right">9:00 am - 5:00 pm</span></li>
+                                    <li class="infoList">Friday <span class="float-right">9:00 am - 3:00 pm</span></li>
+                                    <li class="infoList">Saturday <span class="float-right">Closed</span></li>
+                            </ul>
+                        </div>
+                </div>
+                {{-- Copyright Section Starts Here --}}
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center"style="background-color:#262626;color:white;padding:10px;">
+                        Copyright © 2019 NPLKart. All Rights Reserved
+                    </div>
+                </div>
+            </footer>
+            {{-- footer Ends Here --}}
+        </div>
     </div>
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
     @yield('scripts')
