@@ -23,6 +23,11 @@ class ProductController extends Controller
         return view('admin.products.index',compact('products'));
     }
 
+    public function contact()
+    {
+        return view('layouts.partials.contacts');
+    }
+
     
 
     /**
@@ -87,7 +92,7 @@ class ProductController extends Controller
     {
  
         $categories=Category::with('childrens')->get();;
-        $products=Product::with('categories')->paginate(3);
+        $products=Product::with('categories')->paginate(9);
         return view('products.all',compact('categories','products'));
     }
 
@@ -100,7 +105,8 @@ class ProductController extends Controller
     }
 
     public function single(Product $product){
-        return view('products.single',compact('product'));
+        $products=Product::take(3)->get();
+        return view('products.single',compact('product','products'));
     }
 
     public function addToCart(Product $product , Request $request){

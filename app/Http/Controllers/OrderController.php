@@ -10,7 +10,9 @@ use App\Cart;
 use Session;
 use App\Http\Requests\StoreOrder;
 use App\Notifications\NeworderNotification;
+use App\ServiceCenters;
 use DB;
+use Auth;
 
 class OrderController extends Controller
 {
@@ -24,8 +26,10 @@ class OrderController extends Controller
         if(!Session::has('cart') || empty(Session::get('cart')->getContents() )){
             return redirect('products')->with('message','No Products in the Cart');
           }
+          $user=Auth::user();
           $cart = Session::get('cart');
-          return view('products.checkout', compact('cart')); 
+          $centers= ServiceCenters::all();
+          return view('products.checkout', compact('cart','centers','user')); 
     }
   
     /**
@@ -46,6 +50,14 @@ class OrderController extends Controller
      */
     public function store(StoreOrder $request)
     {
+        if(!isset($request->guest)){
+            $user=User::where('email',$request->email)->first();
+            if(isset($user)){
+                
+            }else{
+                return redirect()->back()->with('message','If you want to checkout as guest.Please Select "Checkout as Guest" and continue.');
+            }
+        }
         $cart = [];
         $order=[];
         $checkout=[];
@@ -59,6 +71,9 @@ class OrderController extends Controller
                 "email"=>$request->email,
                 "address1"=>$request->address1,
                 "address2"=>$request->address2,
+                "phone1"=>$request->phone1,
+                "phone2"=>$request->phone2,
+                "city"=>$request->city,
             ];
             DB::beginTransaction();
             $checkout = Customer::create($customer);
@@ -81,7 +96,7 @@ class OrderController extends Controller
                 foreach($users as $user){
                     $user->notify(new NeworderNotification);
                 }
-                return redirect('home');
+                return redirect('/');
                 
             }else{
                 DB::rollback();

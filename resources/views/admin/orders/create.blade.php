@@ -1,7 +1,8 @@
 @extends('admin.app')
 @section('breadcrumbs')
   <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
- <li class="breadcrumb-item active" aria-current="page">Orders</li>
+  <li class="breadcrumb-item"><a href="{{route('admin.order.index')}}">Orders</a></li>
+ <li class="breadcrumb-item active" aria-current="page">Add/Edit Orders</li>
 @endsection
 @section('content')
 <h2 class="modal-title">Add/Edit Orders</h2>
@@ -88,17 +89,46 @@
   </div>
 
   <div class="mb-3">
+    <label for="phone1">Mobile Number</label>
+    <input type="text" name="phone1" class="form-control" id="phone" placeholder="Your Mobile no." value="{{@$customer->phone1}}" required>
+    @if($errors->has('phone1'))
+        <div class="alert alert-danger">
+          {{$errors->first('phone1')}}
+        </div>
+    @endif
+  </div>
+
+
+  <div class="mb-3">
     <label for="address2">Address Line 2 <span class="text-muted">(Optional)</span></label>
     <input type="text" name="address2" class="form-control" id="address2" placeholder="Apartment or suite"  value="{{@$customer->address2}}">
   </div>
 
   <div class="mb-3">
+    <label for="phone2">Mobile Number 2 <span class="text-muted">(Optional)</span></label>
+    <input type="text" name="phone2" class="form-control" id="phone2" placeholder="Your Secondary Mobile no." value="{{@$customer->phone2}}">
+  </div>
+
+    <div class="mb-3">
+      <label for="city">City</label>
+      <select name="city" class="custom-select d-block w-100" id="city" required>
+        <option value="">Choose...</option>
+        @foreach($centers as $center)
+          <option value="{{$center->city}}" @if(isset($order) && $customer->city == $center->city) {{'selected'}} @endif>{{$center->city}}</option>
+        @endforeach
+      </select>
+    </div>
+
+  <div class="mb-3">
     <label for="address2">Status</label>
     <select class="form-control" id="status" name="status">
             <option value="Pending" @if(isset($order) && $order->status == 'Pending') {{'selected'}} @endif >Pending</option>
-            <option value="Publish" @if(isset($order) && $order->status == 'Publish') {{'selected'}} @endif>Publish</option>
+            <option value="Processing" @if(isset($order) && $order->status == 'Processing') {{'selected'}} @endif>Processing</option>
+            <option value="Delivered" @if(isset($order) && $order->status == 'Delivered') {{'selected'}} @endif>Delivered</option>
     </select>
 </div>
+
+
 <!--
   <div class="row">
     <div class="col-md-5 mb-3">

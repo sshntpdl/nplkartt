@@ -148,7 +148,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    {{$orders->links()}}
+    {{ $orders->render() }}
   </div>
 </div>
 @endsection

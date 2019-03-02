@@ -12149,3 +12149,8 @@ a.text-dark:focus {
   width: 35px;
 }
 
+.cartIcon:hover {
+  border-radius: 25px;
+  background-color: whitesmoke;
+}
+

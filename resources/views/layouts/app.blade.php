@@ -16,6 +16,42 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('admin_css')
+    <style>
+    .productLink{
+        color: black;
+        }
+
+    .productLink:hover{
+        color:#408000;
+        }
+    .productList:hover{
+        background-color:whitesmoke;
+    }
+    .profileProductList:hover{
+        background-color:white;
+    }
+    .cardImage:hover img{
+        opacity:0.7;
+    }
+    .socialMedia:hover{
+        background-color:rgba(0,0,0,0.2); 
+    }
+    .contactForm input[type=text] {
+        border:none;
+        background-color:#418000;
+        color:white;
+        border-bottom:2px solid white;
+    }
+    .contactForm input[type=textarea] {
+        border:none;
+        background-color:#418000;
+        color:white;
+        border-bottom:2px solid white;
+    }
+    .homeIcon:hover{
+        color:#418000;
+    }
+    </style>
 </head>
 <body>
     <div id="container">
@@ -23,19 +59,19 @@
             <div class="row" style="width:100%;">
                 
                     <!-- Left Side Of Navbar -->
-                    <div class="col-6" style="width:100%;height:30px;color:azure;color:white;background-color:black;">
+                    <div class="col-6" style="margin-top:-1em;width:100%;height:20px;color:azure;color:white;background-color:black;">
                         <p class="pt-2"><span data-feather="phone" style="height:15px;"></span>Customer Care</p>
                     </div>
 
                     <!-- Right Side Of Navbar -->
-                    <div class="col-6 d-flex justify-content-end" style="width:100%;height:30px;color:azure;color:white;background-color:black;">
+                    <div class="col-6 d-flex justify-content-end" style="margin-top:-1em;width:100%;height:20px;color:azure;color:white;background-color:black;">
                         <!-- Authentication Links -->
                         @guest
                             <div class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" style="color:white;" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </div>
                             <div class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" style="color:white;" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </div>
                         @else
                             <div class="nav-item dropdown">
@@ -63,27 +99,31 @@
         </nav>
         <div class="container-fluid" style="height:60px;z-index:55;">
             <div class="row" style="background-color:white;">
+                {{-- nplkart icon --}}
                 <div class="col-xs-6 col-sm-6 col-md-3 col-ls-3">
                     <span class="navbar-nav float-left" style="padding:10px;color:#408000;"><h1>NPL <i data-feather="shopping-cart"></i></h1></span>
                 </div>
+                {{-- Search --}}
                 <div class="col-xs-12 col-sm-12 col-md-6 col-ls-6">   
                     <div class="float-left" style="width:92%;">
                         <input type="text" placeholder="Search Here" class="form-control" style="padding:10px;margin-top:10px;width:100%;">
                     </div> <span class="float-left" data-feather="search" style="margin-top:10px;color:white;background:#408000;height:38px;width:5%;padding:5px;border-radius:5px;"></span>
                 </div>
-                <div class="cartIcon col-xs-6 col-sm-6 col-md-3 col-ls-3 d-inline-block">
-                    <div style="float:left;color:#408000;background:#f2ffe6;border-radius:25px;border:2px solid #408000;margin-left:25px;margin-top:0.65%;width:55px;height:55px;padding:13px;" data-feather="shopping-bag"></div><span class="badge badge-danger" style="float:left;margin-top:2%;margin-left:-0.8%;">0</span>
-                    <div style="padding:0px;margin-left:100px;margin-top:8px;"><b>My Shopping Bag</b><br><small>No Items in Bag</small></div>
-                </div>
+                {{-- Cart --}}
+                    <div class="cartIcon col-xs-6 col-sm-6 col-md-3 col-ls-3 mt-2 d-inline-block">
+                        <a href="{{url('cart')}}"><div style="float:left;color:#408000;background:#f2ffe6;border-radius:25px;border:2px solid #408000;margin-left:25px;margin-top:0.65%;width:50px;height:50px;padding:13px;" data-feather="shopping-bag"></div>
+                            <span class="badge badge-danger" style="float:left;margin-top:2%;margin-left:-0.8%;">@if(Session::has('cart')) {{Session::get('cart')->getTotalQty()}} @endif</span></a>
+                        <div class="cartInfo" style="padding:0px;margin-left:100px;margin-top:8px;"><b>My Shopping Bag</b><br><small>@if(Session::has('cart')) <b>{{Session::get('cart')->getTotalQty()}}</b> @endif Items in Bag</small></div>
+                    </div>
             </div>
         {{-- Category Header Started --}}
             <div class="row" style="background-color:white;">
                 <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3 ml-4 mr-xs-2 mr-sm-2" style="background-color:#408000;border-radius:9px;color:white;padding:8px;"><h5><strong>All Categories</strong><span class="float-right" data-feather="menu"></span></h5></div>
-                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>HOME</h6></div>
-                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>SHOP</h6></div>
-                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>CART</h6></div>
-                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><h6>CHECKOUT</h6></div>
-                <div class="col-xs-12 col-sm-12 col-md-2 col-ls-2 p-2 d-flex justify-content-center"><h6>CONTACT US</h6></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('/')}}"><h6>HOME</h6></a></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('products')}}"><h6>SHOP</h6></a></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('cart')}}"><h6>CART</h6></a></div>
+                <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('checkout')}}"><h6>CHECKOUT</h6></a></div>
+                <div class="col-xs-12 col-sm-12 col-md-2 col-ls-2 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('contactUs')}}"><h6>CONTACT US</h6></a></div>
             </div>
         {{-- Category Header Ends Here --}}
         <div class="row py-2">

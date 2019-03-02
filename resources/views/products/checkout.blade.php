@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
-<div class="row">
-        <div class="col-md-4 order-md-2 mb-4">
+<h2 class="pl-4 pt-4" style="margin-top:-2.5em;background:#418000;width:100%;color:white;"><strong>Checkout</strong></h2><br>
+<div class="row p-3 ml-1 shadow" style="width:99%;border-radius:25px;background-color:white;">
+        <div class="col-md-4 order-md-2 mb-4 p-2">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-muted">Your cart</span>
           <span class="badge badge-secondary badge-pill">{{$cart->getTotalQty()}}</span>
@@ -17,30 +17,31 @@
               <span class="text-muted">${{$product['price']}}</span>
             </li>
             @endforeach
-            <li class="list-group-item d-flex justify-content-between bg-light">
+            <!--<li class="list-group-item d-flex justify-content-between bg-light">
               <div class="text-success">
                 <h6 class="my-0">Promo code</h6>
                 <small>EXAMPLECODE</small>
               </div>
               <span class="text-success">-$5</span>
-            </li>
+            </li>-->
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (USD)</span>
-              <strong>{{$cart->getTotalPrice()}}</strong>
+              <strong> ${{$cart->getTotalPrice()}}</strong>
             </li>
           </ul>
-
+        <!--
           <form class="card p-2">
-              @csrf
+              {{-- @csrf --}}
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Promo code">
               <div class="input-group-append">
                 <button type="submit" class="btn btn-secondary">Redeem</button>
               </div>
             </div>
-          </form>
+          </form> -->
         </div>
-        <div class="col-md-8 order-md-1">
+
+        <div class="col-md-8 p-2 order-md-1">
           <h4 class="mb-3">Billing and Shipping address</h4>
         <form class="needs-validation" novalidate="" action="{{route('checkout.store')}}" method="POST">
               @csrf
@@ -71,7 +72,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">@</span>
                 </div>
-                <input type="text" name="userName" class="form-control" id="username" placeholder="Username" required="">
+              <input type="text" name="userName" class="form-control" id="username" value="{{@$user->profile->name}}" placeholder="Username" required="">
                 @if($errors->has('userName'))
                   <div class="alert alert-danger">
                     {{$errors->first('userName')}}
@@ -82,7 +83,7 @@
 
             <div class="mb-3">
               <label for="email">Email <span class="text-muted">(Optional)</span></label>
-              <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com">
+              <input type="email" name="email" value="{{@$user->email}}" class="form-control" id="email" placeholder="you@example.com">
               @if($errors->has('email'))
                   <div class="alert alert-danger">
                     {{$errors->first('email')}}
@@ -92,7 +93,7 @@
 
             <div class="mb-3">
               <label for="address">Address</label>
-              <input type="text" name="address1" class="form-control" id="address" placeholder="1234 Main St" required="">
+              <input type="text" name="address1" class="form-control" value="{{@$user->profile->address}}" id="address" placeholder="Your Address" required>
               @if($errors->has('address1'))
                   <div class="alert alert-danger">
                     {{$errors->first('address1')}}
@@ -101,45 +102,49 @@
             </div>
 
             <div class="mb-3">
-              <label for="address2">Address Line 2 <span class="text-muted">(Optional)</span></label>
-              <input type="text" name="address2" class="form-control" id="address2" placeholder="Apartment or suite">
+              <label for="phone1">Mobile Number</label>
+              <input type="text" name="phone1" class="form-control" value="{{@$user->profile->phone}}" id="phone" placeholder="Your Mobile no." required>
+              @if($errors->has('phone1'))
+                  <div class="alert alert-danger">
+                    {{$errors->first('phone1')}}
+                  </div>
+              @endif
+            </div>
+
+            <div class="mb-3">
+              <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+              <input type="text" name="address2" class="form-control" id="address2" placeholder="Your Secondary Address">
+            </div>
+
+            <div class="mb-3">
+              <label for="phone2">Mobile Number 2 <span class="text-muted">(Optional)</span></label>
+              <input type="text" name="phone2" class="form-control" id="phone2" placeholder="Your Secondary Mobile no.">
             </div>
 
             <div class="row">
-              <div class="col-md-5 mb-3">
-                <label for="country">Country</label>
-                <select name="country" class="custom-select d-block w-100" id="country" required="">
+              <div class="col-md-12 mb-3">
+                <label for="city">City</label>
+                <select name="city" class="custom-select d-block w-100" id="city" required>
                   <option value="">Choose...</option>
-                  <option>United States</option>
+                  @foreach($centers as $center)
+                    <option value="{{$center->city}}">{{$center->city}}</option>
+                  @endforeach
                 </select>
               </div>
-              <div class="col-md-4 mb-3">
-                <label for="state">State</label>
-                <select name="state" class="custom-select d-block w-100" id="state" required="">
-                  <option value="">Choose...</option>
-                  <option>California</option>
-                </select>
-              </div>
-              <div class="col-md-3 mb-3">
-                <label for="zip">Zip</label>
-                <input type="text" name="zip" class="form-control" id="zip" placeholder="" required="">
-                <div class="invalid-feedback">
-                  Zip code required.
-                </div>
-              </div>
+             
             </div>
             <hr class="mb-4">
             
            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="save-info">
+              <input type="checkbox" name="guest" value="guest" class="custom-control-input" id="save-info">
               <label class="custom-control-label" for="save-info">Checkout as Guest.</label>
             </div>
 
             
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            <button class="btn btn-success btn-lg btn-block" type="submit">Continue to checkout</button>
           </form>
-        
+
       </div>
       </div>
 @endsection

@@ -28,7 +28,7 @@ class StoreOrder extends FormRequest
             "lastName"=>'required',
             "email"=>'required',
             "address1"=>'required',
-            "address2"=>'required',
+            "phone1"=>'required',
         ];
     }
 }

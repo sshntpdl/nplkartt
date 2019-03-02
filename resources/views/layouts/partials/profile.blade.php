@@ -55,19 +55,18 @@
     </div>
     <div class="row pl-5 pt-5">
         <div class="row" style="border-bottom:1px solid red"><h3>Products you may like...</h3></div></div>
-    <div class="row pl-5 pt-5">
-       @foreach($products as $product)
-        <div class="col-3 justify-content-center p-3">
-            <div class="row justify-content-center p-1"><img class="profile-image" src="{{asset('storage/'.@$product->thumbnail)}}" alt="" style="width:150px;height:150px;border-radius:125px;"></div>    
-            <div class="row justify-content-center p-1"><strong>{{@$product->title}}</strong></div>
-            <br><div class="row justify-content-center">
-                    <div class="btn-group">
-                        <a type="button" class="btn btn-sm btn-outline-secondary" href="{{route('products.single',$product)}}">View Products</a>
-                        <a type="button" class="btn btn-sm btn-outline-secondary" href="{{route('products.addToCart',$product)}}">Add to carts</a>
-                    </div>
-            </div>
-        </div>  
-        @endforeach
-    </div>
+        <div class="row pl-5" style="width:100%;">
+                @foreach($products as $productall)
+                <a class="productLink" href="{{route('products.single',$productall)}}" >
+                 <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3 justify-content-center p-3 ml-4 profileProductList">
+                     <div class="row justify-content-center p-1"><img class="profile-image" src="{{asset('storage/'.@$productall->thumbnail)}}" alt="" style="width:150px;height:150px;border-radius:125px;"></div>    
+                     <div class="row justify-content-center p-1"><strong>{{@$productall->title}}</strong></div>
+                     <div class="row justify-content-center p-1"><strong>${{@$productall->price}}</strong></div>
+                     <div class="row justify-content-center">
+                        <a type="button" class="btn" style="background-color:#408000;color:antiquewhite;" href="{{route('products.addToCart',$productall)}}">Add to cart <span data-feather="shopping-cart"></span></a>
+                     </div>
+                 </div></a>
+                 @endforeach
+        </div>
 </div>
 @endsection

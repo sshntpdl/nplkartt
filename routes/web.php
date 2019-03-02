@@ -12,10 +12,9 @@
 */
 
 Route::get('/', function () {
-    //$user=App\User::find(1);
-    //$user->notify(new App\Notifications\AllNotification);
-    //Notification::route('mail','sshntpdl123@gmail.com')->notify(new App\Notifications\AllNotification($user));
-    return view('welcome');
+    $featuredproducts=App\Product::where('featured','1')->get();
+    $categories=App\Category::all();
+    return view('welcome',compact('featuredproducts','categories'));
 });
 
 Route::get('markAsRead',function(){
@@ -30,6 +29,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/profile','UserProfileController')->middleware('auth');
+Route::get('/contactUs','ProductController@contact');
 
 Route::group(['as'=>'products.','prefix'=>'products'],function(){
     Route::get('/','ProductController@show')->name('all');
