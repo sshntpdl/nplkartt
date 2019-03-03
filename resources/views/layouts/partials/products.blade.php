@@ -30,7 +30,17 @@
                   <div class="card-body" style="padding:1px;">
                     <div class="container">
                       <div class="row justify-content-center "><h5 class="card-title">{{$product->title}}</h5></div>
-                      <div class="row justify-content-center "><h6 class="card-title"><strong>${{$product->price}}</strong></h6></div>
+                      <div class="row justify-content-center ">
+                        @if(($product->discount_price)!='0') 
+                          <h6 class="card-title">
+                            <strong><span style="text-decoration:line-through red;">${{$product->price}}</span>  ${{$product->price - $product->discount_price}}</strong>
+                          </h6>
+                        @else
+                          <h6 class="card-title">
+                            <strong>${{$product->price}}</strong>
+                          </h6>
+                        @endif
+                      </div>
                       <div class="row justify-content-center mb-3"><a type="button" class="btn" style="background-color:#408000;color:antiquewhite" href="{{route('products.addToCart',$product)}}">Add to carts</a></div>
                     </div>
                   </div>

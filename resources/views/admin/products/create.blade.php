@@ -82,13 +82,13 @@
 					
 						<div class="col-sm-4">
 							<label class="form-control-label">Option</label>
-							<input type="text" name="size_options" class="form-control" value="{{@$product->size_options}}" placeholder="size">
+							<input type="text" name="size_options" class="form-control" value="{{@$product->size_options}}" placeholder="">
 						</div>
 						<div class="col-sm-8">
 							<label class="form-control-label">Values</label>
 							<input type="text" name="size_values" class="form-control" value="{{@$product->size_values}}" placeholder="options1 | option2 | option3" />
 							<label class="form-control-label">Additional Prices</label>
-							<input type="text" name="size_prices" class="form-control" placeholder="price1 | price2 | price3" />
+							<input type="text" name="size_prices" class="form-control" value="{{@$product->size_prices}}" placeholder="price1 | price2 | price3" />
 						</div>
 						<br><hr>
 					</div>
@@ -102,7 +102,7 @@
 					
 						<div class="col-sm-4">
 							<label class="form-control-label">Option</label>
-							<input type="text" name="color_options" class="form-control" value="{{@$product->color_options}}" placeholder="color">
+							<input type="text" name="color_options" class="form-control" value="{{@$product->color_options}}" placeholder="">
 						</div>
 						<div class="col-sm-8">
 							<label class="form-control-label">Values</label>
@@ -114,6 +114,54 @@
 					</div>
 				</div>
 				<!-- Add Further Option Here -->
+				{{-- IMage OPtion Here --}}
+				<div class="card-body" id="extras">
+					<div class="row">
+						<div class="col-sm-12">
+							<h5 class="pt-2 pb-2 bg-primary text-center" style="color:#fff;">Product Images</h5>
+						</div>
+						<div class="col-sm-4">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" name="extraphoto1" id="thumbnail1">
+								<label class="custom-file-label" for="thumbnail1">Choose file</label>
+							</div>
+							<div class="img-thumbnail1  text-center">
+								<img src="@if(isset($product)) {{asset('storage/'.$product->extraphoto1)}} @else {{asset('images/no-thumbnail.jpg')}} @endif" id="imgthumbnail1" class="img-fluid" alt="">
+							</div>
+						</div>
+						{{-- image option2 here --}}
+						<div class="col-sm-4">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" name="extraphoto2" id="thumbnail2">
+								<label class="custom-file-label" for="thumbnail2">Choose file</label>
+							</div>
+							<div class="img-thumbnail2  text-center">
+								<img src="@if(isset($product)) {{asset('storage/'.$product->extraphoto2)}} @else {{asset('images/no-thumbnail.jpg')}} @endif" id="imgthumbnail2" class="img-fluid" alt="">
+							</div>
+						</div>
+						{{-- image option2 here --}}
+						<div class="col-sm-4">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" name="extraphoto3" id="thumbnail3">
+								<label class="custom-file-label" for="thumbnail3">Choose file</label>
+							</div>
+							<div class="img-thumbnail3  text-center">
+								<img src="@if(isset($product)) {{asset('storage/'.$product->extraphoto3)}} @else {{asset('images/no-thumbnail.jpg')}} @endif" id="imgthumbnail3" class="img-fluid" alt="">
+							</div>
+						</div>
+						{{-- image option4 here --}}
+						<div class="col-sm-4">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" name="extraphoto4" id="thumbnail4">
+								<label class="custom-file-label" for="thumbnail4">Choose file</label>
+							</div>
+							<div class="img-thumbnail4  text-center">
+								<img src="@if(isset($product)) {{asset('storage/'.$product->extraphoto4)}} @else {{asset('images/no-thumbnail.jpg')}} @endif" id="imgthumbnail4" class="img-fluid" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+				{{-- Image Option Ends Here --}}
 			</div>
 		</div>
 	</div>
@@ -227,14 +275,46 @@ var image = e.target.result;
 $("#imgthumbnail").attr('src', image);
 });
 });
-$('#btn-add').on('click', function(e){
-	
-		var count = $('.options').length+1;
-		$.get("{{route('admin.product.extras')}}").done(function(data){
-			
-			$('#extras').append(data);
-		})
-})
+
+$('#thumbnail1').on('change', function() {
+var file = $(this).get(0).files;
+var reader = new FileReader();
+reader.readAsDataURL(file[0]);
+reader.addEventListener("load", function(e) {
+var image = e.target.result;
+$("#imgthumbnail1").attr('src', image);
+});
+});
+
+$('#thumbnail2').on('change', function() {
+var file = $(this).get(0).files;
+var reader = new FileReader();
+reader.readAsDataURL(file[0]);
+reader.addEventListener("load", function(e) {
+var image = e.target.result;
+$("#imgthumbnail2").attr('src', image);
+});
+});
+
+$('#thumbnail3').on('change', function() {
+var file = $(this).get(0).files;
+var reader = new FileReader();
+reader.readAsDataURL(file[0]);
+reader.addEventListener("load", function(e) {
+var image = e.target.result;
+$("#imgthumbnail3").attr('src', image);
+});
+});
+
+$('#thumbnail4').on('change', function() {
+var file = $(this).get(0).files;
+var reader = new FileReader();
+reader.readAsDataURL(file[0]);
+reader.addEventListener("load", function(e) {
+var image = e.target.result;
+$("#imgthumbnail4").attr('src', image);
+});
+});
 
 $('#featured').on('change', function(){
 	if($(this).is(":checked"))

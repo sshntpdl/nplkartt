@@ -18,17 +18,17 @@ class Cart
     }
 
     public function addProduct($product,$qty){
-        $products=['qty'=>0,'price'=>$product->price,'product'=>$product];
+        $products=['qty'=>0,'price'=>($product->price-$product->discount_price),'product'=>$product];
         if($this-> contents){
             if(array_key_exists($product->slug,$this->contents)){
                 $products=$this->contents[$product->slug];
             }
         }
         $products['qty']+=$qty;
-        $products['price']=$product->price*$products['qty'];
+        $products['price']=($product->price-$product->discount_price)*$products['qty'];
         $this->contents[$product->slug]=$products;
         $this->totalQty += $qty;
-        $this->totalPrice += $product->price; 
+        $this->totalPrice += ($product->price-$product->discount_price); 
     }
 
     public function removeProduct($product){
@@ -50,7 +50,7 @@ class Cart
         $this->totalQty -= $products['qty'];
         $this->totalPrice -= $products['price'];
         $products['qty'] = $qty;
-        $products['price'] = $product->price * $qty;
+        $products['price'] = ($product->price-$product->discount_price) * $qty;
         $this->totalPrice += $products['price'];
         $this->totalQty += $qty;
         $this->contents[$product->slug] = $products;

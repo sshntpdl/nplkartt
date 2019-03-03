@@ -43,7 +43,7 @@
 					<td>
 						<div class="price-wrap">
 							<span class="price">USD {{$product['price']}}</span>
-							<small class="text-muted">(USD{{$product['product']->price}} each)</small>
+							<small class="text-muted">(USD{{$product['product']->price-$product['product']->discount_price}} each)</small>
 							</div> <!-- price-wrap .// -->
 						</td>
 						<td class="text-right">

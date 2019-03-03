@@ -56,6 +56,38 @@ class ProductController extends Controller
        $name = $name.$extension;
        $path = $request->thumbnail->storeAs('images', $name, 'public');
        }
+       if($request->has('extraphoto1')){
+       $extension = ".".$request->extraphoto1->getClientOriginalExtension();
+       $name = basename($request->extraphoto1->getClientOriginalName(), $extension).time();
+       $name = $name.$extension;
+       $path1 = $request->extraphoto1->storeAs('images', $name, 'public');
+       }else{
+           $path1=null;
+       }
+       if($request->has('extraphoto2')){
+        $extension = ".".$request->extraphoto2->getClientOriginalExtension();
+        $name = basename($request->extraphoto2->getClientOriginalName(), $extension).time();
+        $name = $name.$extension;
+        $path2 = $request->extraphoto2->storeAs('images', $name, 'public');
+        }else{
+            $path2=null;
+        }
+       if($request->has('extraphoto3')){
+            $extension = ".".$request->extraphoto3->getClientOriginalExtension();
+            $name = basename($request->extraphoto3->getClientOriginalName(), $extension).time();
+            $name = $name.$extension;
+            $path3 = $request->extraphoto3->storeAs('images', $name, 'public');
+            }else{
+                $path3=null;
+            }
+       if($request->has('extraphoto4')){
+                $extension = ".".$request->extraphoto4->getClientOriginalExtension();
+                $name = basename($request->extraphoto4->getClientOriginalName(), $extension).time();
+                $name = $name.$extension;
+                $path4 = $request->extraphoto4->storeAs('images', $name, 'public');
+                }else{
+                    $path4=null;
+                }
        $product = Product::create([
             'title'=>$request->title,
            'slug' => $request->slug,
@@ -68,6 +100,10 @@ class ProductController extends Controller
            'color_options' => isset($request->color_options) ? ($request->color_options)  : null,
            'color_values' => isset($request->color_values) ? ($request->color_values)  : null,
            'color_prices' => isset($request->color_prices) ? ($request->color_prices)  : null,
+           'extraphoto1'=> $path1,
+           'extraphoto2'=> $path2,
+           'extraphoto3'=> $path3,
+           'extraphoto4'=> $path4,
            'featured' => ($request->featured) ? $request->featured : 0,
            'price' => $request->price,
            //'discount'=>$request->discount ? $request->discount : 0,
@@ -169,9 +205,40 @@ class ProductController extends Controller
             $name = $name.$extension;
             $path = $request->thumbnail->storeAs('images', $name,'public');
             $product->thumbnail = $path;
-          }else{
-            //$product->thumbnail = 'images/no-thumbnail.jpg';
           }
+          if($request->has('extraphoto1')){
+            Storage::delete($product->extraphoto1);
+            $extension = ".".$request->extraphoto1->getClientOriginalExtension();
+            $name = basename($request->extraphoto1->getClientOriginalName(), $extension).time();
+            $name = $name.$extension;
+            $path1 = $request->extraphoto1->storeAs('images', $name, 'public');
+            $product->extraphoto1 = $path1;
+            }
+            if($request->has('extraphoto2')){
+             Storage::delete($product->extraphoto2);
+             $extension = ".".$request->extraphoto2->getClientOriginalExtension();
+             $name = basename($request->extraphoto2->getClientOriginalName(), $extension).time();
+             $name = $name.$extension;
+             $path2 = $request->extraphoto2->storeAs('images', $name, 'public');
+             $product->extraphoto2 = $path2;
+             }
+            if($request->has('extraphoto3')){
+                 Storage::delete($product->extraphoto3);
+                 $extension = ".".$request->extraphoto3->getClientOriginalExtension();
+                 $name = basename($request->extraphoto3->getClientOriginalName(), $extension).time();
+                 $name = $name.$extension;
+                 $path3 = $request->extraphoto3->storeAs('images', $name, 'public');
+                 $product->extraphoto3 = $path3;
+                 }
+            if($request->has('extraphoto4')){
+                     Storage::delete($product->extraphoto4);
+                     $extension = ".".$request->extraphoto4->getClientOriginalExtension();
+                     $name = basename($request->extraphoto4->getClientOriginalName(), $extension).time();
+                     $name = $name.$extension;
+                     $path4 = $request->extraphoto4->storeAs('images', $name, 'public');
+                     $product->extraphoto4 = $path4;
+                     }
+
          $product->title =$request->title;
          //$product->slug = $request->slug;
          $product->description = $request->description;
