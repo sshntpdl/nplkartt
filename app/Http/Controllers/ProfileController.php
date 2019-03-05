@@ -23,7 +23,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $users = User::with('role','profile')->paginate(5);
+        $users = User::orderBy('created_at','desc')->with('role','profile')->paginate(5);
         return view('admin.users.index',compact('users'));
     }
 

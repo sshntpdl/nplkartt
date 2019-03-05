@@ -103,7 +103,17 @@
                             <div class="card-body" style="padding:1px;">
                               <div class="container">
                                 <div class="row justify-content-center "><h5 class="card-title">{{$product->title}}</h5></div>
-                                <div class="row justify-content-center "><h6 class="card-title"><strong>${{$product->price}}</strong></h6></div>
+                                <div class="row justify-content-center "><h6 class="card-title">
+                                    @if(($product->discount_price)!='0') 
+                                    <h6 class="card-title">
+                                      <strong><span style="text-decoration:line-through red;">${{$product->price}}</span>  ${{$product->price - $product->discount_price}}</strong>
+                                    </h6>
+                                  @else
+                                    <h6 class="card-title">
+                                      <strong>${{$product->price}}</strong>
+                                    </h6>
+                                  @endif  
+                                </h6></div>
                                 <div class="row justify-content-center mb-3"><a type="button" class="btn" style="background-color:#408000;color:antiquewhite" href="{{route('products.addToCart',$product)}}">Add to carts</a></div>
                               </div>
                             </div>
@@ -122,7 +132,7 @@
                       </div>
                     </div>
                     <div class="row mb-4" style="margin-top:-1.0em;">
-                      @foreach($featuredproducts as $product)
+                      @foreach($recentproducts as $product)
                     <a class="productLink" href="{{route('products.single',$product)}}" >
                       <div class="pt-3 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex float-left cardImage">
                         <div class="card">
@@ -130,7 +140,17 @@
                             <div class="card-body" style="padding:1px;">
                               <div class="container">
                                 <div class="row justify-content-center "><h5 class="card-title">{{$product->title}}</h5></div>
-                                <div class="row justify-content-center "><h6 class="card-title"><strong>${{$product->price}}</strong></h6></div>
+                                <div class="row justify-content-center "><h6 class="card-title">
+                                    @if(($product->discount_price)!='0') 
+                                    <h6 class="card-title">
+                                      <strong><span style="text-decoration:line-through red;">${{$product->price}}</span>  ${{$product->price - $product->discount_price}}</strong>
+                                    </h6>
+                                  @else
+                                    <h6 class="card-title">
+                                      <strong>${{$product->price}}</strong>
+                                    </h6>
+                                  @endif  
+                                </h6></div>
                                 <div class="row justify-content-center mb-3"><a type="button" class="btn" style="background-color:#408000;color:antiquewhite" href="{{route('products.addToCart',$product)}}">Add to carts</a></div>
                               </div>
                             </div>
@@ -149,7 +169,8 @@
                       </div>
                     </div>
                     <div class="row mb-4" style="margin-top:-1.0em;">
-                      @foreach($featuredproducts as $product)
+                    @foreach($offerproducts as $product)
+                      @if(($product->discount_price)!='0')
                     <a class="productLink" href="{{route('products.single',$product)}}" >
                       <div class="pt-3 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex float-left cardImage">
                         <div class="card">
@@ -157,13 +178,24 @@
                             <div class="card-body" style="padding:1px;">
                               <div class="container">
                                 <div class="row justify-content-center "><h5 class="card-title">{{$product->title}}</h5></div>
-                                <div class="row justify-content-center "><h6 class="card-title"><strong>${{$product->price}}</strong></h6></div>
+                                <div class="row justify-content-center "><h6 class="card-title">
+                                    @if(($product->discount_price)!='0') 
+                                    <h6 class="card-title">
+                                      <strong><span style="text-decoration:line-through red;">${{$product->price}}</span>  ${{$product->price - $product->discount_price}}</strong>
+                                    </h6>
+                                  @else
+                                    <h6 class="card-title">
+                                      <strong>${{$product->price}}</strong>
+                                    </h6>
+                                  @endif
+                                </div>
                                 <div class="row justify-content-center mb-3"><a type="button" class="btn" style="background-color:#408000;color:antiquewhite" href="{{route('products.addToCart',$product)}}">Add to carts</a></div>
                               </div>
                             </div>
                         </div>
                       </div>
                     </a>
+                    @endif
                       @endforeach
 
                     </div>
@@ -178,7 +210,7 @@
                       </div>
                     </div>
                     <div class="row mb-4" style="margin-top:-1.0em;">
-                      @foreach($featuredproducts as $product)
+                      @foreach($popularProducts as $product)
                     <a class="productLink" href="{{route('products.single',$product)}}" >
                       <div class="pt-3 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex float-left cardImage">
                         <div class="card">
@@ -186,7 +218,17 @@
                             <div class="card-body" style="padding:1px;">
                               <div class="container">
                                 <div class="row justify-content-center "><h5 class="card-title">{{$product->title}}</h5></div>
-                                <div class="row justify-content-center "><h6 class="card-title"><strong>${{$product->price}}</strong></h6></div>
+                                <div class="row justify-content-center "><h6 class="card-title">
+                                    @if(($product->discount_price)!='0') 
+                                    <h6 class="card-title">
+                                      <strong><span style="text-decoration:line-through red;">${{$product->price}}</span>  ${{$product->price - $product->discount_price}}</strong>
+                                    </h6>
+                                  @else
+                                    <h6 class="card-title">
+                                      <strong>${{$product->price}}</strong>
+                                    </h6>
+                                  @endif
+                                </div>
                                 <div class="row justify-content-center mb-3"><a type="button" class="btn" style="background-color:#408000;color:antiquewhite" href="{{route('products.addToCart',$product)}}">Add to carts</a></div>
                               </div>
                             </div>

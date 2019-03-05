@@ -69,9 +69,24 @@
                       </div>
                     </div>
     </main>
+    
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
      <!-- Bootstrap core JavaScript
     ================================================== -->
     @yield('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#sortby').on('change', function() {
+            $('#sortForm1').submit();
+              });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#sortby2').on('change', function() {
+            $('#sortForm2').submit();
+              });
+        });
+    </script>
 </body>
 </html>

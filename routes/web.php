@@ -13,8 +13,19 @@
 
 Route::get('/', function () {
     $featuredproducts=App\Product::where('featured','1')->get();
+    $recentproducts=App\Product::orderBy('created_at','desc')->take(4)->get();
+    $offerproducts=App\Product::orderBy('discount_price','desc')->take(4)->get();
+    $countProducts=DB::table('orders')
+                    ->select('product_name',DB::raw('COUNT(product_name) AS occur'))
+                    ->groupBy('product_name')
+                    ->orderBy('occur','DESC')
+                    ->get();
+    foreach($countProducts as $nameProduct){
+        $a[]=$nameProduct->product_name;
+    }
+    $popularProducts=App\Product::whereIn('title',$a)->get();
     $categories=App\Category::all();
-    return view('welcome',compact('featuredproducts','categories'));
+    return view('welcome',compact('featuredproducts','categories','recentproducts','offerproducts','popularProducts'));
 });
 
 Route::get('markAsRead',function(){
@@ -30,6 +41,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/profile','UserProfileController')->middleware('auth');
 Route::get('/contactUs','ProductController@contact');
+Route::get('products/sort','ProductController@shopSort')->name('products.sort');
 
 Route::group(['as'=>'products.','prefix'=>'products'],function(){
     Route::get('/','ProductController@show')->name('all');
@@ -58,6 +70,8 @@ Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], 
     Route::post('category/search','CategoryController@search')->name('category.search');
     Route::post('profile/search','ProfileController@search')->name('profile.search');
     Route::post('order/search','OrderController@search')->name('order.search');
+    Route::get('order/sort','adminOrderController@sort')->name('order.sort');
+    Route::get('order/generate-pdf','adminOrderController@pdfview')->name('generate-pdf');
 
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::resource('product','ProductController');

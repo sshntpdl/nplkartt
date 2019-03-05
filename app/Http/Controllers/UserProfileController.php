@@ -59,7 +59,7 @@ class UserProfileController extends Controller
     public function show(Profile $profile)
     {
         $user=User::where('id',$profile->user_id)->first();
-        $products=Product::take(3)->get();
+        $products=Product::inRandomOrder()->take(3)->get();
         return view('layouts.partials.profile',compact('user','profile','products'));
     }
 

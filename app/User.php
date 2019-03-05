@@ -7,6 +7,7 @@ use App\Profile;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Redis;
 
 
 class User extends Authenticatable
@@ -14,7 +15,7 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     
-    
+    protected $appends = ['lastSeen'];
     protected $dates = ['deleted_at'];
     /**
      * The attributes that are mass assignable.
@@ -22,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password','role_id','last_login_at',
+        'email', 'password','role_id','last_login_at','last_seen'
     ];
 
     /**
@@ -54,5 +55,8 @@ class User extends Authenticatable
         public function getCity(){
         return $this->profile->city->name;
     }
+
+    
+ 
 
 }

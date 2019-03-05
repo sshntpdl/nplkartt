@@ -11,6 +11,7 @@ use App\ServiceCenters;
 use App\Notifications\NeworderNotification;
 use App\Http\Requests\StoreOrder;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class adminOrderController extends Controller
 {
@@ -21,8 +22,7 @@ class adminOrderController extends Controller
      */
     public function index()
     {   
-        $orders=Order::with('customers','products')->paginate(3);
-        
+        $orders=Order::orderBy('created_at','desc')->with('customers','products')->get();
         return view('admin.orders.index',compact('orders'));
     }
 
@@ -62,8 +62,8 @@ class adminOrderController extends Controller
                 "city"=>$request->city,
             ];
             DB::beginTransaction();
+            
             $checkout = Customer::create($customer);
-           
                 $products=[
                     'customer_id'=>$checkout->id,
                     'product_id'=>1,
@@ -72,6 +72,11 @@ class adminOrderController extends Controller
                     'qty'=>$request->productQty,
                     'status'=>$request->status,
                     'price'=>$request->productPrice,
+                    "address1"=>$request->address1,
+                    "address2"=>$request->address2,
+                    "phone1"=>$request->phone1,
+                    "phone2"=>$request->phone2,
+                    "city"=>$request->city,
                     'payment_id'=>0,
                 ];
                 $order = Order::create($products);
@@ -98,6 +103,44 @@ class adminOrderController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function pdfview(Request $request){
+        if($request->value==null){
+            $request->value='All';
+        }
+        if($request->value=='All'){
+            $orders=Order::all();
+        }else{
+            $orders=Order::where('status',$request->value)->get();
+        }
+        if($request->has('download')) {
+        	// pass view file
+            $pdf = PDF::loadView('admin.orders.pdfview');
+            // download pdf
+            return $pdf->download($request->value.'orderlist.pdf');
+        }
+        return redirect()->back()->with('message','failed to do');
+
+    }
+
+    public function sort(Request $request){
+        $sortValue=$request->get('sortby');
+        //dd($sortValue);
+        if($sortValue=='Pending'){
+            $orders=Order::where('status','Pending')->with('customers','products')->get();
+            return view('admin.orders.index',compact('orders','sortValue'));
+        }elseif($sortValue=='Processing'){
+            $orders=Order::where('status','Processing')->with('customers','products')->get();
+            return view('admin.orders.index',compact('orders','sortValue'));
+        }elseif($sortValue=='Delivered'){
+            $orders=Order::where('status','Delivered')->with('customers','products')->get();
+            return view('admin.orders.index',compact('orders','sortValue'));
+        }else{
+            $orders=Order::orderBy('created_at','desc')->with('customers','products')->get();
+            return view('admin.orders.index',compact('orders','sortValue'));
+        }
+
     }
 
     /**
@@ -131,6 +174,11 @@ class adminOrderController extends Controller
         $order->qty=$request->productQty;
         $order->status=$request->status;
         $order->price=$request->productPrice;
+        $order->address1=$request->address1;
+        $order->address2=$request->address2;
+        $order->phone1=$request->phone1;
+        $order->phone2=$request->phone2;
+        $order->city=$request->city;
         $customer->email=$request->email;
         $customer->firstName=$request->firstName;
         $customer->lastName=$request->lastName;

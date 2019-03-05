@@ -19,7 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('categories')->paginate(3);
+        $products = Product::orderBy('created_at','desc')->with('categories')->paginate(3);
         return view('admin.products.index',compact('products'));
     }
 
@@ -127,7 +127,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
  
-        $categories=Category::with('childrens')->get();;
+        $categories=Category::with('childrens')->get();
         $products=Product::with('categories')->paginate(9);
         return view('products.all',compact('categories','products'));
     }
@@ -140,8 +140,24 @@ class ProductController extends Controller
         return view('admin.products.index',compact('products','value'));
     }
 
+    public function shopSort(Request $request){
+        $sortValue=$request->get('sortby');
+        //dd($sortValue);
+        $categories=Category::with('childrens')->get();
+        if($sortValue=='recentby'){
+            $products=Product::orderBy('created_at','desc')->paginate(10);
+            return view('products.all',compact('categories','products','sortValue'));
+        }elseif($sortValue=='popularity'){
+            $products=Product::orderBy('created_at','desc')->paginate(10);
+            return view('products.all',compact('categories','products','sortValue'));
+        }elseif($sortValue=='offers'){
+            $products=Product::orderBy('discount_price','desc')->paginate(10);
+            return view('products.all',compact('categories','products','sortValue'));
+        }
+    }
+
     public function single(Product $product){
-        $products=Product::take(3)->get();
+        $products=Product::inRandomOrder()->take(3)->get();
         return view('products.single',compact('product','products'));
     }
 

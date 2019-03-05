@@ -20,7 +20,17 @@
         
       {{-- main section starts here --}}
         <div class="col-xs-12 col-sm-12 col-md-9 col-ls-9 shadow-sm" style="border-radius:10px;background-color:white;border:1px solid rgba(0,0,0,0.2);">
-          <h6 class="pt-4 pl-3">Showing 9 of 12 results</h6>
+          <div class="row pt-4 pl-3">
+              <h6 class="mr-auto">Showing 9 of 12 results</h6>
+              <form id="sortForm" name="sortForm" method="GET" class="ml-auto mr-3" action="{{route('products.sort')}}">
+                @csrf
+                <select name="sortby" id="sortby" class="form-control">
+                  <option value="recentby" @if(isset($sortValue) && $sortValue == 'recentBy') {{'selected'}} @endif>Sort By Recent</option>
+                  <option value="popularity" @if(isset($sortValue) && $sortValue == 'popularity') {{'selected'}} @endif>Sort By Popularity</option>
+                  <option value="offers" @if(isset($sortValue) && $sortValue == 'offers') {{'selected'}} @endif>Sort By Offers</option>
+                </select>
+              </form>
+          </div>
           <div class="row d-flex justify-content-center mb-4">
             @foreach($products as $product)
           <a class="productLink" href="{{route('products.single',$product)}}" >

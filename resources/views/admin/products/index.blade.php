@@ -52,7 +52,7 @@
       @if($products->count() > 0)
       @foreach($products as $product)
       <tr>
-        <td>{{$product->id}}</td>
+        <td></td>
         <td>{{$product->title}}</td>
         <td>{!! substr($product->description,0,30) !!}</td>
         <td>
