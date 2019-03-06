@@ -71,6 +71,7 @@ class adminOrderController extends Controller
                     'product_name'=>$request->productName,
                     'qty'=>$request->productQty,
                     'status'=>$request->status,
+                    'visit'=>($request->visit) ? $request->visit : 0,
                     'price'=>$request->productPrice,
                     "address1"=>$request->address1,
                     "address2"=>$request->address2,
@@ -173,6 +174,7 @@ class adminOrderController extends Controller
         $order->product_name=$request->productName;
         $order->qty=$request->productQty;
         $order->status=$request->status;
+        $order->visit=($request->visit) ? $request->visit : 0;
         $order->price=$request->productPrice;
         $order->address1=$request->address1;
         $order->address2=$request->address2;

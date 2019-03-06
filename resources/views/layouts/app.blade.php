@@ -106,8 +106,11 @@
                 {{-- Search --}}
                 <div class="col-xs-12 col-sm-12 col-md-6 col-ls-6">   
                     <div class="float-left" style="width:92%;">
-                        <input type="text" placeholder="Search Here" class="form-control" style="padding:10px;margin-top:10px;width:100%;">
-                    </div> <span class="float-left" data-feather="search" style="margin-top:10px;color:white;background:#408000;height:38px;width:5%;padding:5px;border-radius:5px;"></span>
+                        <form action="{{route('products.search')}}" method="get">
+                            @csrf
+                        <input type="text" placeholder="Search Here" class="form-control" name="searchValue" style="padding:10px;margin-top:10px;width:100%;">
+                    </div> <button class="btn mt-2" style="background-color:#418000;"><span data-feather="search" style="color:white;"></span></button>
+                </form>
                 </div>
                 {{-- Cart --}}
                     <div class="cartIcon col-xs-6 col-sm-6 col-md-3 col-ls-3 mt-2 d-inline-block">

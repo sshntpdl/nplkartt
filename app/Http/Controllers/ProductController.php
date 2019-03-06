@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Cart; 
 use Session;
+use DB;
 
 class ProductController extends Controller
 {
@@ -90,7 +91,9 @@ class ProductController extends Controller
                 }
        $product = Product::create([
             'title'=>$request->title,
+            'brandName'=>$request->brandName,
            'slug' => $request->slug,
+           'features'=>$request->features,
            'description'=>$request->description,
            'thumbnail' => $path,
            'status' => $request->status,
@@ -104,6 +107,7 @@ class ProductController extends Controller
            'extraphoto2'=> $path2,
            'extraphoto3'=> $path3,
            'extraphoto4'=> $path4,
+           'assurance' => ($request->assurance) ? $request->assurance : 0,
            'featured' => ($request->featured) ? $request->featured : 0,
            'price' => $request->price,
            //'discount'=>$request->discount ? $request->discount : 0,
@@ -129,7 +133,8 @@ class ProductController extends Controller
  
         $categories=Category::with('childrens')->get();
         $products=Product::with('categories')->paginate(9);
-        return view('products.all',compact('categories','products'));
+        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        return view('products.all',compact('categories','products','brandNames'));
     }
 
     public function search(Request $request){
@@ -140,20 +145,71 @@ class ProductController extends Controller
         return view('admin.products.index',compact('products','value'));
     }
 
+    public function productSearch(Request $request){
+        $value=$request->searchValue;
+        if(isset($value)){
+            $products = Product::where('title','LIKE','%'.$value.'%')->orWhere('description','LIKE','%'.$value.'%')
+            ->orWhere('features','LIKE','%'.$value.'%')
+            ->orWhere('slug','LIKE','%'.$value.'%')
+            ->orWhere('price','LIKE','%'.$value.'%')->get();
+        }else{
+            $products=Product::with('categories')->get();
+        }
+        $categories=Category::with('childrens')->get();
+        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        return view('products.all',compact('categories','products','brandNames','value'));
+    }
+
     public function shopSort(Request $request){
         $sortValue=$request->get('sortby');
         //dd($sortValue);
+        $brandNames=Product::distinct('brandName')->pluck('brandName');
         $categories=Category::with('childrens')->get();
         if($sortValue=='recentby'){
-            $products=Product::orderBy('created_at','desc')->paginate(10);
-            return view('products.all',compact('categories','products','sortValue'));
+            $products=Product::orderBy('created_at','desc')->get();
+            return view('products.all',compact('categories','products','sortValue','brandNames'));
         }elseif($sortValue=='popularity'){
-            $products=Product::orderBy('created_at','desc')->paginate(10);
-            return view('products.all',compact('categories','products','sortValue'));
+            $products=Product::orderBy('created_at','desc')->get();
+            return view('products.all',compact('categories','products','sortValue','brandNames'));
         }elseif($sortValue=='offers'){
-            $products=Product::orderBy('discount_price','desc')->paginate(10);
-            return view('products.all',compact('categories','products','sortValue'));
+            $products=Product::orderBy('discount_price','desc')->get();
+            return view('products.all',compact('categories','products','sortValue','brandNames'));
         }
+    }
+
+    public function shopRange(Request $request){
+        if(($request->rangeValue1)>=($request->rangeValue2)){
+            $highValue = $request->rangeValue1;
+            $lowValue = $request->rangeValue2;
+        }else{
+            $highValue=$request->rangeValue2;
+            $lowValue = $request->rangeValue1;
+        }
+        $rangeValue1=$request->rangeValue1;
+        $rangeValue2=$request->rangeValue2;
+        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        $categories=Category::with('childrens')->get();
+        $products=Product::whereBetween('price',array($lowValue,$highValue))->get();
+        return view('products.all',compact('categories','products','rangeValue1','rangeValue2','brandNames'));
+    }
+
+    public function brand(Request $request){
+        $brandValue=$request->brandValue;
+        $categories=Category::with('childrens')->get();
+        $products=Product::where('brandName',$brandValue)->get();
+        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        return view('products.all',compact('categories','products','brandNames','brandValue'));
+    }
+
+    public function category(Request $request){
+        $categoryValue=$request->categoryValue;
+        $categories=Category::with('childrens')->get();
+        $categoriesId=Category::where('title',$categoryValue)->pluck('id');
+        $productIds=DB::table('category_product')->where('category_id',$categoriesId)->get();
+        $productId=$productIds->pluck('product_id');
+        $products=Product::whereIn('id',$productId)->get();
+        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        return view('products.all',compact('categories','products','brandNames','categoryValue'));
     }
 
     public function single(Product $product){
@@ -256,10 +312,13 @@ class ProductController extends Controller
                      }
 
          $product->title =$request->title;
+         $product->brandName =$request->brandName;
          //$product->slug = $request->slug;
+         $product->features = $request->features;
          $product->description = $request->description;
          $product->status = $request->status;
          $product->featured = ($request->featured) ? $request->featured : 0;
+         $product->assurance = ($request->assurance) ? $request->assurance : 0;
          $product->price = $request->price;
          //$product->discount = $request->discount ? $request->discount : 0;
          $product->discount_price = ($request->discount_price) ? ($request->discount_price) : 0;

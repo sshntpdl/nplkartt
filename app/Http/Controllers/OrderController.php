@@ -87,6 +87,7 @@ class OrderController extends Controller
                         'product_name'=>$product['product']->title,
                         'qty'=>$product['qty'],
                         'status'=>'Pending',
+                        'visit'=>($request->visit) ? $request->visit : 0,
                         'price'=>$product['price'],
                         'address1'=>$request->address1,
                         'address2'=>$request->address2,

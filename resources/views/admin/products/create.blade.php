@@ -41,10 +41,23 @@
 			</div>
 		</div>
 		<div class="form-group row">
+				<div class="col-lg-12">
+						<label class="form-control-label">Brand Name:</label>
+						<input type="text" name="brandName" class="form-control" value="{{@$product->brandName}}" />
+				</div>
+		</div>
+		<div class="form-group row">
+
+			<div class="col-lg-12">
+				<label class="form-control-label">Features: </label>
+				<textarea name="features" id="editor1" class="form-control ">{!! @$product->features !!}</textarea>
+			</div>
+		</div>
+		<div class="form-group row">
 
 			<div class="col-lg-12">
 				<label class="form-control-label">Description: </label>
-				<textarea name="description" id="editor" class="form-control ">{!! @$product->description !!}</textarea>
+				<textarea name="description" id="editor2" class="form-control ">{!! @$product->description !!}</textarea>
 			</div>
 		</div>
 		<div class="form-group row">
@@ -208,6 +221,12 @@
                                 <span class="input-group-text"><input id="featured" type="checkbox" name="featured" value="@if(isset($product)){{@$product->featured}}@else{{0}}@endif" @if(isset($product) && $product->featured == 1) {{'checked'}} @endif /></span>
                             </div>
                             <p type="text" class="form-control" name="featured" placeholder="0.00" aria-label="featured" aria-describedby="featured" >Featured Product</p>
+						</div>
+						<div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><input id="assurance" type="checkbox" name="assurance" value="@if(isset($product)){{@$product->assurance}}@else{{0}}@endif" @if(isset($product) && $product->assurance == 1) {{'checked'}} @endif /></span>
+                            </div>
+                            <p type="text" class="form-control" name="assurance" placeholder="0.00" aria-label="assurance" aria-describedby="assurance" >NPLKart Assurance</p>
                         </div>
 				    </div>
 				</li>
@@ -236,7 +255,7 @@
 @section('scripts')
 <script type="text/javascript">
 	$(function(){
-			ClassicEditor.create( document.querySelector( '#editor' ), {
+			ClassicEditor.create( document.querySelector( '#editor1' ), {
 		toolbar: [ 'Heading', 'Link', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote','undo', 'redo' ],
 	})
 .then( editor => {
@@ -245,6 +264,18 @@ console.log( editor );
 .catch( error => {
 console.error( error );
 } );
+
+ClassicEditor.create( document.querySelector( '#editor2' ), {
+		toolbar: [ 'Heading', 'Link', 'bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote','undo', 'redo' ],
+	})
+.then( editor => {
+console.log( editor );
+} )
+.catch( error => {
+console.error( error );
+} );
+
+
 @php
 	if(!isset($product)){
 @endphp
@@ -317,6 +348,12 @@ $("#imgthumbnail4").attr('src', image);
 });
 
 $('#featured').on('change', function(){
+	if($(this).is(":checked"))
+		$(this).val(1)
+	else
+		$(this).val(0)
+})
+$('#assurance').on('change', function(){
 	if($(this).is(":checked"))
 		$(this).val(1)
 	else

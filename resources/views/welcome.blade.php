@@ -73,25 +73,25 @@
     </div>
     <div class="row ml-4 mt-4">
         <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3">
-                <div class="card" style="width: 18rem;border-radius:25px;">
-                    <h5 class="card-title" style="border-radius:25px;padding:20px;width:100%;background-color:#408000;color:white;">Product Categories</h5>
-                    <div class="card-body">
-                        <table>
-                            <tbody>
-                              @foreach($categories as $category)
-                                <tr><h5><a href="#" style="color:black;">{{$category->title}}</a></h5></tr><br>
-                              @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="card" style="width: 18rem;border-radius:25px;">
+                <h4 class="card-title mt-3 ml-3" style="border-bottom:1px solid red;width:90%;"><b>Categories</b></h4>
+                <div class="card-body">
+                  <table>
+                    <tbody>
+                      @foreach($categories as $category)
+                        <tr><h6><a href="{{route('products.category',['categoryValue'=>@$category->title])}}" style="color:black;">{{$category->title}}</a></h6></tr><br>
+                      @endforeach
+                    </tbody>
+                  </table>
                 </div>
+              </div>
         </div>
         {{-- Product Section Here  --}}
               {{-- main section starts here --}}
-              <div class="col-xs-12 col-sm-12 col-md-9 col-ls-9 shadow-sm" style="border-radius:10px;background-color:white;border:1px solid rgba(0,0,0,0.2);">
-                    <div class="row" style="width:89.5%;margin-left:0.1em;">
-                        <div class="pt-2 mt-4 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex justify-content-center pb-1" style="background-color:#418000;color:white;border-top-left-radius:25px;border-top-right-radius:25px;">
-                            <h5><strong>Featured Products</strong></h5>
+              <div class="col-xs-12 col-sm-12 col-md-9 col-ls-9" style="border-radius:10px;background-color:white;">
+                    <div class="row" style="width:89.5%;">
+                        <div class="pt-1 mt-2 col-xs-6 col-sm-6 col-md-6 col-xs-6">
+                            <h4 style="padding:5px;border-bottom:1px solid red;"><strong>Featured Products</strong></h4>
                         </div>
                     </div>
                     <div class="row mb-4" style="margin-top:-1.0em;">
@@ -126,10 +126,10 @@
 
                     {{-- Next row --}}
 
-                    <div class="row" style="width:89.5%;margin-left:0.1em;">
-                      <div class="pt-2 mt-4 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex justify-content-center pb-1" style="background-color:#418000;color:white;border-top-left-radius:25px;border-top-right-radius:25px;">
-                          <h5><strong>Recent Arrivals</strong></h5>
-                      </div>
+                    <div class="row" style="width:89.5%;">
+                        <div class="pt-1 mt-2 col-xs-6 col-sm-6 col-md-6 col-xs-6">
+                            <h4 style="padding:5px;border-bottom:1px solid red;"><strong>Recent Arrivals</strong></h4>
+                        </div>
                     </div>
                     <div class="row mb-4" style="margin-top:-1.0em;">
                       @foreach($recentproducts as $product)
@@ -163,10 +163,10 @@
                     {{-- Next row ends here --}}
                     {{-- Next row --}}
 
-                    <div class="row" style="width:89.5%;margin-left:0.1em;">
-                      <div class="pt-2 mt-4 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex justify-content-center pb-1" style="background-color:#418000;color:white;border-top-left-radius:25px;border-top-right-radius:25px;">
-                          <h5><strong>Offers</strong></h5>
-                      </div>
+                    <div class="row" style="width:89.5%;">
+                        <div class="pt-1 mt-2 col-xs-6 col-sm-6 col-md-6 col-xs-6">
+                            <h4 style="padding:5px;border-bottom:1px solid red;"><strong>Offers</strong></h4>
+                        </div>
                     </div>
                     <div class="row mb-4" style="margin-top:-1.0em;">
                     @foreach($offerproducts as $product)
@@ -204,10 +204,10 @@
 
                     {{-- Next row --}}
 
-                    <div class="row" style="width:89.5%;margin-left:0.1em;">
-                      <div class="pt-2 mt-4 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex justify-content-center pb-1" style="background-color:#418000;color:white;border-top-left-radius:25px;border-top-right-radius:25px;">
-                          <h5><strong>Top Sellar</strong></h5>
-                      </div>
+                    <div class="row" style="width:89.5%;">
+                        <div class="pt-1 mt-2 col-xs-6 col-sm-6 col-md-6 col-xs-6">
+                            <h4 style="padding:5px;border-bottom:1px solid red;"><strong>Top Sellar</strong></h4>
+                        </div>
                     </div>
                     <div class="row mb-4" style="margin-top:-1.0em;">
                       @foreach($popularProducts as $product)

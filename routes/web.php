@@ -42,6 +42,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/profile','UserProfileController')->middleware('auth');
 Route::get('/contactUs','ProductController@contact');
 Route::get('products/sort','ProductController@shopSort')->name('products.sort');
+Route::get('products/range','ProductController@shopRange')->name('products.range');
+Route::get('products/brand','ProductController@brand')->name('products.brand');
+Route::get('products/category','ProductController@category')->name('products.category');
+Route::get('products/search','ProductController@productSearch')->name('products.search');
 
 Route::group(['as'=>'products.','prefix'=>'products'],function(){
     Route::get('/','ProductController@show')->name('all');
