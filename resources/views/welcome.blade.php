@@ -6,32 +6,32 @@
                         <li data-target="#demo" data-slide-to="0" class="active"></li>
                         <li data-target="#demo" data-slide-to="1"></li>
                         <li data-target="#demo" data-slide-to="2"></li>
-                        <li data-target="#demo" data-slide-to="2"></li>
+                        <li data-target="#demo" data-slide-to="3"></li>
                       </ul>
                       <div class="carousel-inner">
                         <div class="carousel-item active">
-                          <img src="{{asset('images/shoes.jpg')}}" alt="Los Angeles"  height="400">
+                          <img src="{{asset('images/shoes.jpg')}}" alt="Los Angeles"  height="300">
                           <div class="carousel-caption">
                             <h3>Los Angeles</h3>
                             <p>We had such a great time in LA!</p>
                           </div>   
                         </div>
                         <div class="carousel-item">
-                          <img src="{{asset('images/shoe2.jpg')}}" alt="Chicago"  height="400">
+                          <img src="{{asset('images/shoe2.jpg')}}" alt="Chicago"  height="300">
                           <div class="carousel-caption">
                             <h3>Chicago</h3>
                             <p>Thank you, Chicago!</p>
                           </div>   
                         </div>
                         <div class="carousel-item">
-                          <img src="{{asset('images/shirt.jpg')}}" alt="New York"  height="400">
+                          <img src="{{asset('images/shirt.jpg')}}" alt="New York"  height="300">
                           <div class="carousel-caption">
                             <h3>New York</h3>
                             <p>We love the Big Apple!</p>
                           </div>   
                         </div>
                         <div class="carousel-item">
-                            <img src="{{asset('images/coat.jpg')}}" alt="New York" height="400">
+                            <img src="{{asset('images/coat.jpg')}}" alt="New York" height="300">
                             <div class="carousel-caption">
                                 <h3>New York</h3>
                                 <p>We love the Big Apple!</p>
@@ -72,33 +72,23 @@
         </div>
     </div>
     <div class="row ml-4 mt-4">
-        <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3">
-            <div class="card" style="width: 18rem;border-radius:25px;">
-                <h4 class="card-title mt-3 ml-3" style="border-bottom:1px solid red;width:90%;"><b>Categories</b></h4>
-                <div class="card-body">
-                  <table>
-                    <tbody>
-                      @foreach($categories as $category)
-                        <tr><h6><a href="{{route('products.category',['categoryValue'=>@$category->title])}}" style="color:black;">{{$category->title}}</a></h6></tr><br>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-        </div>
+        
         {{-- Product Section Here  --}}
               {{-- main section starts here --}}
-              <div class="col-xs-12 col-sm-12 col-md-9 col-ls-9" style="border-radius:10px;background-color:white;">
-                    <div class="row" style="width:89.5%;">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-ls-12" style="border-radius:10px;background-color:white;">
+                    <div class="row" style="width:100%;">
                         <div class="pt-1 mt-2 col-xs-6 col-sm-6 col-md-6 col-xs-6">
                             <h4 style="padding:5px;border-bottom:1px solid red;"><strong>Featured Products</strong></h4>
                         </div>
+                        <div class="pt-1 mt-1 col-xs-6 col-sm-6 col-md-6 col-xs-6">
+                            <button class="btn btn-outline-danger float-right">Shop More</button>
+                        </div>
                     </div>
-                    <div class="row mb-4" style="margin-top:-1.0em;">
+                    <div class="row mb-4 menu-wrapper menu" style="margin-top:-1.0em;">
                       @foreach($featuredproducts as $product)
                     <a class="productLink" href="{{route('products.single',$product)}}" >
-                      <div class="pt-3 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex float-left cardImage">
-                        <div class="card">
+                      <div class="pt-3 col-xs-6 col-sm-6 col-md-2 col-xs-2 d-flex float-left cardImage Item">
+                        <div class="card" style="width:100%;">
                           <img class="card-img-top" style="height:200px;width:100%;" src="{{asset('storage/'.$product->thumbnail)}}">
                             <div class="card-body" style="padding:1px;">
                               <div class="container">
@@ -134,8 +124,8 @@
                     <div class="row mb-4" style="margin-top:-1.0em;">
                       @foreach($recentproducts as $product)
                     <a class="productLink" href="{{route('products.single',$product)}}" >
-                      <div class="pt-3 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex float-left cardImage">
-                        <div class="card">
+                      <div class="pt-3 col-xs-6 col-sm-6 col-md-2 col-xs-2 d-flex float-left cardImage">
+                        <div class="card" style="width:100%;">
                           <img class="card-img-top" style="height:200px;width:100%;" src="{{asset('storage/'.$product->thumbnail)}}">
                             <div class="card-body" style="padding:1px;">
                               <div class="container">
@@ -161,6 +151,8 @@
                     
                     </div>
                     {{-- Next row ends here --}}
+                              
+
                     {{-- Next row --}}
 
                     <div class="row" style="width:89.5%;">
@@ -172,8 +164,8 @@
                     @foreach($offerproducts as $product)
                       @if(($product->discount_price)!='0')
                     <a class="productLink" href="{{route('products.single',$product)}}" >
-                      <div class="pt-3 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex float-left cardImage">
-                        <div class="card">
+                      <div class="pt-3 col-xs-6 col-sm-6 col-md-2 col-xs-2 d-flex float-left cardImage">
+                        <div class="card" style="width:100%;">
                           <img class="card-img-top" style="height:200px;width:100%;" src="{{asset('storage/'.$product->thumbnail)}}">
                             <div class="card-body" style="padding:1px;">
                               <div class="container">
@@ -212,8 +204,8 @@
                     <div class="row mb-4" style="margin-top:-1.0em;">
                       @foreach($popularProducts as $product)
                     <a class="productLink" href="{{route('products.single',$product)}}" >
-                      <div class="pt-3 col-xs-6 col-sm-6 col-md-3 col-xs-3 d-flex float-left cardImage">
-                        <div class="card">
+                      <div class="pt-3 col-xs-6 col-sm-6 col-md-2 col-xs-2 d-flex float-left cardImage">
+                        <div class="card" style="width:100%;">
                           <img class="card-img-top" style="height:200px;width:100%;" src="{{asset('storage/'.$product->thumbnail)}}">
                             <div class="card-body" style="padding:1px;">
                               <div class="container">

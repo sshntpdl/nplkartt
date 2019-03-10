@@ -43,7 +43,7 @@
 
         <div class="col-md-8 p-2 order-md-1">
           <h4 class="mb-3">Billing and Shipping address</h4>
-        <form class="needs-validation" novalidate="" action="{{route('checkout.store')}}" method="POST">
+        <form class="needs-validation"  action="{{route('checkout.store')}}" method="POST">
               @csrf
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -67,12 +67,12 @@
             </div>
 
             <div class="mb-3">
-              <label for="username">Username</label>
+              <label for="username">Username(Optional)</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">@</span>
                 </div>
-              <input type="text" name="userName" class="form-control" id="username" value="{{@$user->profile->name}}" placeholder="Username" required="">
+              <input type="text" name="userName" class="form-control" id="username" value="{{@$user->profile->name}}" placeholder="Username">
                 @if($errors->has('userName'))
                   <div class="alert alert-danger">
                     {{$errors->first('userName')}}
@@ -133,6 +133,18 @@
               </div>
              
             </div>
+
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                  <label for="visit">Do you like to pick up your order from nearest store or want it to be delivered at your given address ?</label>
+                  <select name="visit" class="custom-select d-block w-100" id="visit" required>
+                    <option value="">Choose...</option>
+                    <option value="0">Deliverd At My Address.</option>
+                    <option value="1">Pick Up From Store</option>
+                  </select>
+                </div>
+               
+              </div>
             <hr class="mb-4">
             
            <div class="custom-control custom-checkbox">

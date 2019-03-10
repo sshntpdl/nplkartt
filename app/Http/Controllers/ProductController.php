@@ -130,10 +130,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
- 
-        $categories=Category::with('childrens')->get();
-        $products=Product::with('categories')->paginate(9);
-        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        $parent_id=DB::table('category_parent')
+                        ->distinct('category_id')->pluck('category_id')->all();
+        $categories=Category::whereIn('id',$parent_id)->get();
+        $products=Product::with('categories')->paginate(52);
+        $brandNames=Product::distinct('brandName')->pluck('brandName')->take(10);
         return view('products.all',compact('categories','products','brandNames'));
     }
 
@@ -151,28 +152,28 @@ class ProductController extends Controller
             $products = Product::where('title','LIKE','%'.$value.'%')->orWhere('description','LIKE','%'.$value.'%')
             ->orWhere('features','LIKE','%'.$value.'%')
             ->orWhere('slug','LIKE','%'.$value.'%')
-            ->orWhere('price','LIKE','%'.$value.'%')->get();
+            ->orWhere('price','LIKE','%'.$value.'%')->paginate(50);
         }else{
-            $products=Product::with('categories')->get();
+            $products=Product::with('categories')->paginate(50);
         }
         $categories=Category::with('childrens')->get();
-        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        $brandNames=Product::distinct('brandName')->pluck('brandName')->take(9);
         return view('products.all',compact('categories','products','brandNames','value'));
     }
 
     public function shopSort(Request $request){
         $sortValue=$request->get('sortby');
         //dd($sortValue);
-        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        $brandNames=Product::distinct('brandName')->pluck('brandName')->take(9);
         $categories=Category::with('childrens')->get();
         if($sortValue=='recentby'){
-            $products=Product::orderBy('created_at','desc')->get();
+            $products=Product::orderBy('created_at','desc')->paginate(50);
             return view('products.all',compact('categories','products','sortValue','brandNames'));
         }elseif($sortValue=='popularity'){
-            $products=Product::orderBy('created_at','desc')->get();
+            $products=Product::orderBy('created_at','desc')->paginate(50);
             return view('products.all',compact('categories','products','sortValue','brandNames'));
         }elseif($sortValue=='offers'){
-            $products=Product::orderBy('discount_price','desc')->get();
+            $products=Product::orderBy('discount_price','desc')->paginate(50);
             return view('products.all',compact('categories','products','sortValue','brandNames'));
         }
     }
@@ -187,17 +188,17 @@ class ProductController extends Controller
         }
         $rangeValue1=$request->rangeValue1;
         $rangeValue2=$request->rangeValue2;
-        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        $brandNames=Product::distinct('brandName')->pluck('brandName')->take(9);
         $categories=Category::with('childrens')->get();
-        $products=Product::whereBetween('price',array($lowValue,$highValue))->get();
+        $products=Product::whereBetween('price',array($lowValue,$highValue))->paginate(50);
         return view('products.all',compact('categories','products','rangeValue1','rangeValue2','brandNames'));
     }
 
     public function brand(Request $request){
         $brandValue=$request->brandValue;
         $categories=Category::with('childrens')->get();
-        $products=Product::where('brandName',$brandValue)->get();
-        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        $products=Product::where('brandName',$brandValue)->paginate(50);
+        $brandNames=Product::distinct('brandName')->pluck('brandName')->take(9);
         return view('products.all',compact('categories','products','brandNames','brandValue'));
     }
 
@@ -207,8 +208,8 @@ class ProductController extends Controller
         $categoriesId=Category::where('title',$categoryValue)->pluck('id');
         $productIds=DB::table('category_product')->where('category_id',$categoriesId)->get();
         $productId=$productIds->pluck('product_id');
-        $products=Product::whereIn('id',$productId)->get();
-        $brandNames=Product::distinct('brandName')->pluck('brandName');
+        $products=Product::whereIn('id',$productId)->paginate(50);
+        $brandNames=Product::distinct('brandName')->pluck('brandName')->take(9);
         return view('products.all',compact('categories','products','brandNames','categoryValue'));
     }
 

@@ -64,6 +64,10 @@
 					<th colspan="2">Total Price: </th>
 					<td>{{$cart->getTotalPrice()}}</td>
 				</tr>
+				<tr>
+					<th colspan="2"></th>
+					<td><a href="{{url('checkout')}}"><button class="btn btn-success">Checkout</button></a></td>
+				</tr>
 			</tbody>
 		</table>
 		</div> <!-- card.// -->

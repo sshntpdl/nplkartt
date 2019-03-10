@@ -51,6 +51,46 @@
     .homeIcon:hover{
         color:#418000;
     }
+    /* dropdown */
+    /* Dropdown Button */
+.dropbtn {
+  color: white;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown { 
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  width: 300px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+/* drop down ends here */
     </style>
 </head>
 <body>
@@ -121,7 +161,16 @@
             </div>
         {{-- Category Header Started --}}
             <div class="row" style="background-color:white;">
-                <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3 ml-4 mr-xs-2 mr-sm-2" style="background-color:#408000;border-radius:9px;color:white;padding:8px;"><h5><strong>All Categories</strong><span class="float-right" data-feather="menu"></span></h5></div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3 ml-4 mr-xs-2 mr-sm-2 dropdown">
+                    <button style="border:none;width:100%;background-color:#408000;border-radius:9px;color:white;padding:8px;"><h5><strong>All Categories</strong><span class="float-right" data-feather="menu"></span></h5></button>
+                    <div class="dropdown-content">
+                            @foreach(App\Category::all() as $category)
+                            <a href="{{route('products.category',['categoryValue'=>@$category->title])}}" @if(isset($categoryValue) && ($categoryValue==$category->title)) style="color:green;text-decoration:underline;font-weight:bold;font-size:1.3em;" @else style="color:black;"@endif>
+                                {{@$category->title}}
+                            </a>
+                            @endforeach
+                    </div>
+                </div>
                 <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('/')}}"><h6>HOME</h6></a></div>
                 <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('products')}}"><h6>SHOP</h6></a></div>
                 <div class="col-xs-12 col-sm-12 col-md-1 col-ls-1 p-2 d-flex justify-content-center"><a class="productLink" href="{{url('cart')}}"><h6>CART</h6></a></div>
@@ -196,6 +245,7 @@
     </div>
     <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
     @yield('scripts')
+
     <script type="text/javascript">
         $(document).ready(function() {
         $('#sortby').on('change', function() {

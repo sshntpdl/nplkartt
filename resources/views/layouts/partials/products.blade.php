@@ -32,7 +32,17 @@
                 <table>
                   <tbody>
                     @foreach($categories as $category)
-                      <tr><h6><a href="{{route('products.category',['categoryValue'=>@$category->title])}}" @if(isset($categoryValue) && ($categoryValue==$category->title)) style="color:green;text-decoration:underline;font-weight:bold;font-size:1.3em;" @else style="color:black;"@endif>{{$category->title}}</a></h6></tr><br>
+                  <tr><h6><a href="{{route('products.category',['categoryValue'=>@$category->title])}}" @if(isset($categoryValue) && ($categoryValue==$category->title)) style="color:green;text-decoration:underline;font-weight:bold;font-size:1.3em;" @else style="color:black;"@endif>
+                    <b>{{$category->title}}</b></a>
+                  <button data-toggle="collapse" class="btn float-right" data-target="#demo-{{$category->id}}" style="padding:0px;margin-top:-0.5em;"><span data-feather="arrow-down-circle" style="height:20px;"></span></button>
+                    </h6>
+                    <ul id="demo-{{$category->id}}" class="collapse">
+                    @foreach($category->parents as $child)
+                      <li><a href="{{route('products.category',['categoryValue'=>@$child->title])}}" @if(isset($categoryValue) && ($categoryValue==$category->title)) style="color:green;text-decoration:underline;font-weight:bold;font-size:1.3em;" @else style="color:black;"@endif>{{@$child->title}}</a></li>
+                    @endforeach
+                    </ul>
+                  </tr><br>
+
                     @endforeach
                   </tbody>
                 </table>
@@ -109,11 +119,11 @@
             @endforeach
           </div>
 
-          {{-- <div class="row">
+          <div class="row">
             <div class="col-md-12">
               {{$products->links()}}
             </div>
-          </div> --}}
+          </div> 
         </div>
       {{-- main section ends here --}}
       </div>  

@@ -21,6 +21,10 @@ class Category extends Model
         return $this->belongsToMany(Category::class,'category_parent','parent_id','category_id');
     }
 
+    public function parents(){
+        return $this->belongsToMany(Category::class,'category_parent','category_id','parent_id');
+    }
+
     public function getRouteKeyName(){
    	 return 'slug';
 	}

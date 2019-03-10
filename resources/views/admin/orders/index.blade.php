@@ -31,7 +31,7 @@
           </span>
       </div>
   </form>
-  <button class="btn btn-outline-success btn-sm float-right mr-4 p-2" style="margin-left:-1em;" data-toggle="modal" data-target="#myModal">Preview</button>
+  <a @if(isset($sortValue)) href="{{route('admin.order.preview',['sortValue'=>$sortValue])}}" @else href="{{route('admin.order.preview',['sortValue'=>'All'])}}" @endif><button class="btn btn-outline-success btn-sm float-right mr-4 p-2" style="margin-left:-1em;" >Preview</button></a>
   <form action="{{route('admin.order.sort')}}" name='sortForm1' id="sortForm1" method="GET" role="sort" >
       @csrf
       <div class="input-group col-3 float-right">
@@ -43,66 +43,7 @@
       </select>
       </div>
     </form>
-  <!-- The Modal -->
-  <div class="modal fade" id="myModal">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-        
-<!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">@if(@$sortValue) {{@$sortValue}} @else All @endif Order Information</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          
-<!-- Modal body -->
-          <div class="modal-body">
-            
-            <div class="col-12">
-              <h4 class="mr-5 ml-2"><strong></strong></h4>
-              {{-- table started --}}
-              <div class="col-12">
-                <table  style="width:100%;">
-                  <thead>
-                    <th>#</th>
-                    <th>Customer Name</th>
-                    <th>Product Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>City</th>
-                    <th>Address</th>
-                    <th>Phone No.</th>
-                  </thead>
-                  <tbody>
-                    @foreach($orders as $order)
-                      <tr>
-                        <td></td>
-                        <td>{{@$order->customer_name}}</td>
-                        <td>{{@$order->product_name}}</td>
-                        <td>{{@$order->qty}}</td>
-                        <td>{{@$order->price}}</td>
-                        <td>{{@$order->city}}</td>
-                        <td>{{@$order->address1}},{{@$order->address1}}</td>
-                        <td>{{@$order->phone1}},{{@$order->phone2}}</td>
-                      </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-              </div>
-            <!-- table closed -->
-            </div>
-          </div>
-          
-<!-- Modal footer -->
-          <div class="modal-footer">
-            <a style="color:black;" href="{{ route('admin.generate-pdf',['download'=>'pdf','value'=>@$sortValue]) }}" type="button" class="btn btn-warning" ><span data-feather="printer"></span> Print  </a>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  {{-- model closed --}}
-
-
+ 
 </div>
 <div class="table-responsive">
   <table class="table table-striped table-sm">
@@ -193,6 +134,9 @@
                     
         <!-- Modal footer -->
                     <div class="modal-footer">
+                        <a href="{{route('admin.order.billPreview',['orderId'=>$order->id])}}">
+                            <button class="btn btn-outline-success btn-sm float-right mr-2 p-2" style="margin-left:-1em;">Get Bill</button>
+                          </a>
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                     

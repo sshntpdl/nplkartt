@@ -132,9 +132,6 @@
                                     @foreach(auth()->user()->unreadNotifications as $notification)
                                         <a class="dropdown-item"  style="background-color:lightgray;" href="#">{{ $notification->data['data'] }}</a>
                                     @endforeach
-                                    @foreach(auth()->user()->readNotifications as $notification)
-                                        <a class="dropdown-item" href="#">{{ $notification->data['data'] }}</a>
-                                    @endforeach
                                 </div>
                             </li>
                         </ul>

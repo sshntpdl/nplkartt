@@ -12,9 +12,9 @@
 */
 
 Route::get('/', function () {
-    $featuredproducts=App\Product::where('featured','1')->get();
-    $recentproducts=App\Product::orderBy('created_at','desc')->take(4)->get();
-    $offerproducts=App\Product::orderBy('discount_price','desc')->take(4)->get();
+    $featuredproducts=App\Product::where('featured','1')->take(12)->get();
+    $recentproducts=App\Product::orderBy('created_at','desc')->take(8)->get();
+    $offerproducts=App\Product::orderBy('discount_price','desc')->take(8)->get();
     $countProducts=DB::table('orders')
                     ->select('product_name',DB::raw('COUNT(product_name) AS occur'))
                     ->groupBy('product_name')
@@ -23,9 +23,10 @@ Route::get('/', function () {
     foreach($countProducts as $nameProduct){
         $a[]=$nameProduct->product_name;
     }
-    $popularProducts=App\Product::whereIn('title',$a)->get();
+    $popularProducts=App\Product::whereIn('title',$a)->take(8)->get();
     $categories=App\Category::all();
-    return view('welcome',compact('featuredproducts','categories','recentproducts','offerproducts','popularProducts'));
+    $brandNames=App\Product::distinct('brandName')->pluck('brandName')->take(6);
+    return view('welcome',compact('featuredproducts','categories','recentproducts','offerproducts','popularProducts','brandNames'));
 });
 
 Route::get('markAsRead',function(){
@@ -34,6 +35,7 @@ Route::get('markAsRead',function(){
 })->name('markRead');
 
 Route::resource('checkout','OrderController');
+Route::get('orderTracker','OrderController@orderTracker')->name('orderTracker');
 
 Auth::routes();
 
@@ -75,7 +77,10 @@ Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], 
     Route::post('profile/search','ProfileController@search')->name('profile.search');
     Route::post('order/search','OrderController@search')->name('order.search');
     Route::get('order/sort','adminOrderController@sort')->name('order.sort');
+    Route::get('order/preview','adminOrderController@preview')->name('order.preview');
+    Route::get('order/billPreview','adminOrderController@billPreview')->name('order.billPreview');
     Route::get('order/generate-pdf','adminOrderController@pdfview')->name('generate-pdf');
+    Route::get('order/generate-bill','adminOrderController@billview')->name('generate-bill');
 
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::resource('product','ProductController');

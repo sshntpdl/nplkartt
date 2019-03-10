@@ -67,7 +67,7 @@ class adminOrderController extends Controller
                 $products=[
                     'customer_id'=>$checkout->id,
                     'product_id'=>1,
-                    'customer_name'=>$request->userName,
+                    'customer_name'=>$request->firstName.' '.$request->lastName,
                     'product_name'=>$request->productName,
                     'qty'=>$request->productQty,
                     'status'=>$request->status,
@@ -107,19 +107,37 @@ class adminOrderController extends Controller
     }
 
     public function pdfview(Request $request){
-        if($request->value==null){
-            $request->value='All';
-        }
-        if($request->value=='All'){
-            $orders=Order::all();
-        }else{
-            $orders=Order::where('status',$request->value)->get();
-        }
         if($request->has('download')) {
+            $sortValue=$request->sortValue;
+            if($sortValue=='Pending'){
+                $orders=Order::where('status','Pending')->with('customers','products')->get();
+                
+            }elseif($sortValue=='Processing'){
+                $orders=Order::where('status','Processing')->with('customers','products')->get();
+              
+            }elseif($sortValue=='Delivered'){
+                $orders=Order::where('status','Delivered')->with('customers','products')->get();
+              
+            }else{
+                $orders=Order::orderBy('created_at','desc')->with('customers','products')->get();
+            
+            }
         	// pass view file
-            $pdf = PDF::loadView('admin.orders.pdfview');
+            $pdf = PDF::loadView('admin.orders.preview',['orders'=>$orders,'sortValue'=>$sortValue]);
             // download pdf
-            return $pdf->download($request->value.'orderlist.pdf');
+            return $pdf->download($sortValue.'orderlist.pdf');
+        }
+        return redirect()->back()->with('message','failed to do');
+
+    }
+
+    public function billview(Request $request){
+        if($request->has('download')) {
+            $order=Order::where('id',$request->order)->first();
+        	// pass view file
+            $pdf = PDF::loadView('admin.orders.billPreview',['order'=>$order]);
+            // download pdf
+            return $pdf->download('bill-'.$order->customer_name.'.pdf');
         }
         return redirect()->back()->with('message','failed to do');
 
@@ -141,6 +159,30 @@ class adminOrderController extends Controller
             $orders=Order::orderBy('created_at','desc')->with('customers','products')->get();
             return view('admin.orders.index',compact('orders','sortValue'));
         }
+
+    }
+
+    public function preview(Request $request){
+        $sortValue=$request->sortValue;
+        if($sortValue=='Pending'){
+            $orders=Order::where('status','Pending')->with('customers','products')->get();
+            return view('admin.orders.preview',compact('orders','sortValue'));
+        }elseif($sortValue=='Processing'){
+            $orders=Order::where('status','Processing')->with('customers','products')->get();
+            return view('admin.orders.preview',compact('orders','sortValue'));
+        }elseif($sortValue=='Delivered'){
+            $orders=Order::where('status','Delivered')->with('customers','products')->get();
+            return view('admin.orders.preview',compact('orders','sortValue'));
+        }else{
+            $orders=Order::orderBy('created_at','desc')->with('customers','products')->get();
+            return view('admin.orders.preview',compact('orders','sortValue'));
+        }
+    }
+
+    public function billPreview(Request $request){
+        $orderId=$request->orderId;
+        $order=Order::where('id',$orderId)->first();
+        return view('admin.orders.billPreview',compact('orderId','order'));
 
     }
 
@@ -170,7 +212,7 @@ class adminOrderController extends Controller
     public function update(Request $request , Order $order)
     {
         $customer=Customer::where('id',$order->customer_id)->first();
-        $order->customer_name=$request->userName;
+        $order->customer_name=$request->firstName.' '.$request->firstName;
         $order->product_name=$request->productName;
         $order->qty=$request->productQty;
         $order->status=$request->status;

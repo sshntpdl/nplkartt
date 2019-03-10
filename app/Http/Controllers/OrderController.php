@@ -63,7 +63,7 @@ class OrderController extends Controller
             $order=[];
             $checkout=[];
             if(Session::has('cart')){
-                $cart=Session::get('cart');
+                $cart=Session::pull('cart');
             }
                 $customer = [
                     "firstName"=>$request->firstName,
@@ -78,12 +78,12 @@ class OrderController extends Controller
                 ];
                 DB::beginTransaction();
                 $checkout = Customer::create($customer);
-
+                $ids=[];
                 foreach($cart->getContents() as $slug=> $product){
                     $products=[
                         'customer_id'=>$checkout->id,
                         'product_id'=>$product['product']->id,
-                        'customer_name'=>$request->userName,
+                        'customer_name'=>$request->firstName.' '.$request->lastName,
                         'product_name'=>$product['product']->title,
                         'qty'=>$product['qty'],
                         'status'=>'Pending',
@@ -97,15 +97,17 @@ class OrderController extends Controller
                         'payment_id'=>0,
                     ];
                     $order = Order::create($products);
+                    $ids[]=$order->id.'#'.$product['product']->title;
                 } 
                 if($checkout && $order){
                     DB::commit();
+                    
                     //dd($checkout,$order);
                     $users=User::where('role_id','2')->get();
                     foreach($users as $user){
                         $user->notify(new NeworderNotification);
                     }
-                    return redirect('/');
+                    return view('products.orderId',compact('ids'));
                     
                 }else{
                     DB::rollback();
@@ -122,6 +124,19 @@ class OrderController extends Controller
     public function show()
     {
         //
+    }
+
+    public function orderTracker(Request $request){
+        if(isset($request->orderId)){
+            $orderId=$request->orderId;
+            $orderid=preg_replace('/[^0-9]/','',$request->orderId);
+            $status=Order::where('id',$orderid)->pluck('status');
+            $stats=$status->toArray();
+            $stat=$stats['0'];
+            return view('products.orderStatus',compact('stat','orderId'));
+        }else{
+            return view('products.orderTracker');
+        }
     }
 
     public function search(Request $request){
