@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Product;
 use App\Category;
+use App\Offer;
 use App\ServiceCenters;
 
 class AdminController extends Controller
@@ -18,6 +19,7 @@ class AdminController extends Controller
         $product=Product::all();
         $category=Category::all();
         $services=ServiceCenters::all();
-    	return view('admin.dashboard',compact('customer','product','category','services'));
+        $offers=Offer::all();
+    	return view('admin.dashboard',compact('customer','product','category','services','offers'));
     }
 }

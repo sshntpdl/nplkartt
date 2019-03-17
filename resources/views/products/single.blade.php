@@ -4,17 +4,85 @@
           <div class="row shadow-sm " style="background-color:white;border-radius:15px;">
                   <div class="row p-5 mt-1">
                       <div class="col-md-5">
-                            <img class="img-thumbnail p-2" src="{{asset('storage/'.$product->thumbnail)}}">
-                            <div class="row">
-                              <div class="col-3"></div>
-                            {{-- Extra Image Here --}}
+                            <img id="myImg" class="img-thumbnail p-2" data-toggle="modal" data-target="#myModal" src="{{asset('storage/'.$product->thumbnail)}}">
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+                                <div class="modal-dialog" style="margin-top:6em;">
+                                    <div class="modal-content">
+                                      <img src="{{asset('storage/'.$product->thumbnail)}}" width="100%" height="100%" alt="">
+                                    </div>
+                                  </div>
                             </div>
+                            @if($product->extraphoto1!=null || $product->extraphoto2!=null || $product->extraphoto3!=null || $product->extraphoto4!=null)
+                            <div class="row d-flex justify-content-center mt-2 p-2 shadow" style="background-color:whitesmoke;border-radius:15px;height:8em;">
+                              @if($product->extraphoto1!=null)
+                              <div class="col-3" style="width:100%;">
+                                <img id="myImg1" class="img-thumbnail p-2" data-toggle="modal" data-target="#myModal-1" src="{{asset('storage/'.$product->extraphoto1)}}" style="height:6em;">
+                                 <!-- The Modal -->
+                              <div id="myModal-1" class="modal">
+                                <div class="modal-dialog" style="margin-top:6em;">
+                                    <div class="modal-content">
+                                      <img src="{{asset('storage/'.$product->extraphoto1)}}" width="100%" height="100%" alt="">
+                                    </div>
+                                  </div>
+                              </div>
+                              </div>
+                              @endif
+                            {{-- extra photo 2 --}}
+                            @if($product->extraphoto2!=null)
+                              <div class="col-3" style="width:100%;">
+                                <img id="myImg1" class="img-thumbnail p-2" data-toggle="modal" data-target="#myModal-2" src="{{asset('storage/'.$product->extraphoto2)}}" style="height:6em;">
+                                 <!-- The Modal -->
+                              <div id="myModal-2" class="modal">
+                                <div class="modal-dialog" style="margin-top:6em;">
+                                    <div class="modal-content">
+                                      <img src="{{asset('storage/'.$product->extraphoto2)}}" width="100%" height="100%" alt="">
+                                    </div>
+                                  </div>
+                              </div>
+                              </div>
+                              @endif
+                            {{-- extra photo 2 --}}
+                            @if($product->extraphoto3!=null)
+                              <div class="col-3" style="width:100%;">
+                                <img id="myImg1" class="img-thumbnail p-2" data-toggle="modal" data-target="#myModal-3" src="{{asset('storage/'.$product->extraphoto3)}}" style="height:6em;">
+                                 <!-- The Modal -->
+                              <div id="myModal-3" class="modal">
+                                <div class="modal-dialog" style="margin-top:6em;">
+                                    <div class="modal-content">
+                                      <img src="{{asset('storage/'.$product->extraphoto3)}}" width="100%" height="100%" alt="">
+                                    </div>
+                                  </div>
+                              </div>
+                              </div>
+                              @endif
+                            {{-- extra photo 2 --}}
+                            @if($product->extraphoto4!=null)
+                              <div class="col-3" style="width:100%;">
+                                <img id="myImg1" class="img-thumbnail p-2" data-toggle="modal" data-target="#myModal-4" src="{{asset('storage/'.$product->extraphoto4)}}" style="height:6em;">
+                                 <!-- The Modal -->
+                              <div id="myModal-4" class="modal">
+                                <div class="modal-dialog" style="margin-top:6em;">
+                                    <div class="modal-content">
+                                      <img src="{{asset('storage/'.$product->extraphoto4)}}" width="100%" height="100%" alt="">
+                                    </div>
+                                  </div>
+                              </div>
+                              </div>
+                              @endif
+                            </div>
+                          @endif
                       </div>
                       <div class="col-md-5 d-block ml-4">
                                 <h4 class="card-title" style="border-bottom:2px solid red;"><strong>{{$product->title}}</strong></h4>
-                                <p class="card-text">{!! $product->description !!}</p>
+                                <p class="card-text">{!! $product->features !!}</p>
                                 <div class="d-block justify-content-between align-items-center">
-                                  <h5><strong>${{$product->price}}</strong></h5><br>
+                                  <h5><strong>${{$product->price}}</strong></h5>
+                                  <span>
+                                    @for($i=1;$i<=@$product->ratings;$i++)
+                                      <i data-feather="star" style="color:gold;"></i>
+                                    @endfor
+                                  </span><br><br>
                                     <div class="btn-group">
                                       <a type="button" class="btn" style="background-color:#408000;color:antiquewhite;" href="{{route('products.addToCart',$product)}}">Add to cart <span data-feather="shopping-cart"></span></a>
                                     </div> 
@@ -29,7 +97,7 @@
                               <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" data-toggle="tab" href="#additionalInformation">Additional Information</a>
+                              <a class="nav-link" data-toggle="tab" href="#additionalInformation">Features</a>
                             </li>
                             <li class="nav-item">
                               <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
@@ -43,12 +111,56 @@
                               <p>{!! $product->description !!}</p>
                             </div>
                             <div id="additionalInformation" class="container tab-pane fade"><br>
-                              <h3>Additional Information</h3>
-                              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                              <h3>Features</h3>
+                              <p>{!! $product->features !!}</p>
                             </div>
                             <div id="reviews" class="container tab-pane fade"><br>
                               <h3>Reviews</h3>
-                              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                              <div class="container ml-1">
+                                @if(count($reviews)>0)
+                                  @foreach($reviews as $review)
+                                  <div class="row ml-1 media border p-3 col-11 mt-2"  style="background-color:azure;width:88.6%;">
+                                    <img src="{{asset('images/user22.png')}}" class="mr-2 rounded-circle" style="width:60px;">
+                                    <div class="media-body">
+                                      <h6><b>{{@$review->user_name}}</b><small><i>Posted on {{@$review->created_at}}</i></small></h6>
+                                    @if(Auth::user()!=null && Auth::user()->email==$review->user_email)
+                                      <a class="float-right" href="{{route('products.deleteReview',['reviewId'=>$review->id])}}"><button class="btn" style="margin-top:-3.5em;"><span data-feather="trash-2" style="height:1.5em;"></span></button></a>
+                                    @endif
+                                    <p>{{@$review->reviews}}</p>
+                                    <p><b>Ratings:</b>
+                                      <span>
+                                          @for($i=1;$i<=@$review->ratings;$i++)
+                                            <i data-feather="star" style="color:gold;"></i>
+                                          @endfor
+                                        </span>
+                                    </p>      
+                                    </div>
+                                  </div>
+                                  @endforeach
+                                @else
+                                  <p>No Reviews Till Now.</p>
+                                @endif
+                                  @if(Auth::user()!=null && in_array(Auth::user()->email,$customers))
+                                  <form action="{{route('products.review')}}" method="get">
+                                    @csrf
+                                    <div class="row form-group col-11 mt-4" >
+                                      <label for="comment"><b>Give Your Review on Product:</b></label>
+                                      <textarea class="form-control" rows="2" id="comment" name="review" required=""></textarea>
+                                      <input name="productId" value="{{@$product->id}}" type="hidden" >
+                                    </div>
+                                    <div class="row form-group col-11">
+                                      <label for="ratings"><b>Ratings :</b></label>
+                                      <input class="col-6 ml-2" type="number" name="ratings" min="1" max="5" value="4">
+                                      <input name="userEmail" value="{{Auth::user()->email}}" type="hidden" >
+                                      <input name="userName" value="{{Auth::user()->profile->name}}" type="hidden" >
+                                    </div>
+                                  
+                                    <div class="form-group row ml-1">
+                                      <button class="btn btn-outline-success" >Post</button>
+                                    </div>
+                                  </form>
+                                  @endif
+                              </div>
                             </div>
                           </div>
                           {{-- Nav tabs Ends Here --}}

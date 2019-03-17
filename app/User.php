@@ -56,7 +56,12 @@ class User extends Authenticatable
         return $this->profile->city->name;
     }
 
-    
+    public function verified()
+    {
+    $this->verified = 1;
+    $this->email_token = null;
+    $this->save();
+    }
  
 
 }

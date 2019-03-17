@@ -25,8 +25,9 @@ Route::get('/', function () {
     }
     $popularProducts=App\Product::whereIn('title',$a)->take(8)->get();
     $categories=App\Category::all();
+    $offer=App\Offer::take(4)->get();
     $brandNames=App\Product::distinct('brandName')->pluck('brandName')->take(6);
-    return view('welcome',compact('featuredproducts','categories','recentproducts','offerproducts','popularProducts','brandNames'));
+    return view('welcome',compact('featuredproducts','categories','recentproducts','offerproducts','popularProducts','brandNames','offer'));
 });
 
 Route::get('markAsRead',function(){
@@ -35,6 +36,7 @@ Route::get('markAsRead',function(){
 })->name('markRead');
 
 Route::resource('checkout','OrderController');
+Route::get('register/verify/{token}', 'Auth\RegisterController@verify');
 Route::get('orderTracker','OrderController@orderTracker')->name('orderTracker');
 
 Auth::routes();
@@ -48,6 +50,9 @@ Route::get('products/range','ProductController@shopRange')->name('products.range
 Route::get('products/brand','ProductController@brand')->name('products.brand');
 Route::get('products/category','ProductController@category')->name('products.category');
 Route::get('products/search','ProductController@productSearch')->name('products.search');
+Route::get('products/review','ProductController@review')->name('products.review');
+Route::get('products/deleteReview','ProductController@deleteReview')->name('products.deleteReview');
+
 
 Route::group(['as'=>'products.','prefix'=>'products'],function(){
     Route::get('/','ProductController@show')->name('all');
@@ -88,4 +93,5 @@ Route::group(['as'=>'admin.','middleware'=>['auth','admin'],'prefix'=>'admin'], 
     Route::resource('profile','ProfileController');
     Route::resource('order','adminOrderController');
     Route::resource('service','ServiceCentersController');
+    Route::resource('offers','OfferController');
 });

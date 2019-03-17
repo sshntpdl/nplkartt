@@ -91,6 +91,10 @@
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 /* drop down ends here */
+#myImg1:hover{
+    background-color:azure;
+    opacity: 0.5;
+}
     </style>
 </head>
 <body>
@@ -253,5 +257,6 @@
               });
         });
     </script>
+   
 </body>
 </html>

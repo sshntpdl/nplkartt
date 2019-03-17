@@ -54,4 +54,13 @@ class LoginController extends Controller
             'last_login_at' => Carbon::now()->toDateTimeString(),
         ]);
     }
+    
+    public function credentials(Request $request)
+    {
+        return [
+            'email' => $request->email,
+            'password' => $request->password,
+            'verified' => 1,
+        ];
+    }
 }

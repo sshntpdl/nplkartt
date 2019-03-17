@@ -10,6 +10,7 @@
         "barryvdh/laravel-snappy": "^0.4.4",
         "consoletvs/charts": "5.*",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "^6.3",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "laravel/framework": "5.6.*",

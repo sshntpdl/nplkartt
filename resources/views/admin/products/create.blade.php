@@ -53,6 +53,14 @@
 				<textarea name="features" id="editor1" class="form-control ">{!! @$product->features !!}</textarea>
 			</div>
 		</div>
+
+		<div class="form-group row">
+			<div class="col-lg-12">
+				<label for="ratings">Ratings :</label>
+                <input class="col-6 ml-2" type="number" name="ratings" min="1" max="5" @if((@$product->ratings)!=null) value="{{@$product->ratings}}" @else value="4" @endif>
+			</div>
+		</div>
+
 		<div class="form-group row">
 
 			<div class="col-lg-12">

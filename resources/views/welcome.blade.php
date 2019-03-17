@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-fluid" style="width:100%;margin-top:-4.45em;">
-        <div id="row demo " style="width:102.25%;margin-left:-1em;" class="carousel slide" data-ride="carousel">
+  <div class="row" style="width:102.25%;margin-left:-1em;background-color:#408000;">
+    <img src="{{asset('storage/'.$offer->find(1)->thumbnail)}}" alt="" height="300">
+  </div>
+        {{-- <div id="row demo " style="width:102.25%;margin-left:-1em;" class="carousel slide" data-ride="carousel">
                 <ul class="carousel-indicators">
                         <li data-target="#demo" data-slide-to="0" class="active"></li>
                         <li data-target="#demo" data-slide-to="1"></li>
@@ -44,7 +47,7 @@
                       <a class="carousel-control-next" href="#demo" data-slide="next">
                         <span class="carousel-control-next-icon"></span>
                       </a>        
-        </div>
+        </div> --}}
     <div class="row shadow-sm" style="width:102.25%;background-color:white;">
         <div class="col-xs-12 col-sm-12 col-md-3 col-ls-3" style="width:100%;">
            <div class="row mt-2"> 

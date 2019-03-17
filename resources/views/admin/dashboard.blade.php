@@ -31,6 +31,13 @@
             </div>
       </div>
     </div><br>
+    <div class="col-12">
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{session('message')}}
+            </div>
+        @endif
+    </div><br>
     <div class="row">
       <div class="jumbotron col-12">
         <div class="float-left col-12" style="border-bottom: 1px solid red;padding:10px;"><h4>Service Center Info</h4>
@@ -51,13 +58,6 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <div class="col-12">
-                @if(session()->has('message'))
-                    <div class="alert alert-success">
-                        {{session('message')}}
-                    </div>
-                @endif
-            </div>
             <tbody>
               @if($services->count() > 0)
               @foreach($services as $service)
@@ -88,7 +88,59 @@
       
     </div>
 
-    @yield('charts')
+    <div class="row">
+      <div class="jumbotron col-12">
+
+        <div class="float-left col-12" style="border-bottom: 1px solid red;padding:10px;"><h4>Offer Images</h4>
+          
+          <a href="{{route('admin.offers.create')}}" class="btn btn-sm btn-outline-secondary float-right" style="margin-top:-35px;">
+            Add Offers Images
+          </a>
+          
+      </div><br>
+      <div class="col-12 table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Thumbnail</th>
+              <th>Discount Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if($offers->count() > 0)
+            @foreach($offers as $offer)
+              <tr>
+              <td></td>
+              <td>{{$offer->title}}</td>
+              <td><img src="{{asset('storage/'.$offer->thumbnail)}}" alt="{{$offer->title}}" class="img-responsive" height="50"/></td>
+              <td>{!! $offer->description !!}</td>
+              <td>{{$offer->discount_price}}</td>
+              <td><a class="btn btn-info btn-sm" href="{{route('admin.offers.edit',$offer)}}">Edit</a> |
+                <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$offer->id}}')">Delete</a>
+                <form id="delete-product-{{$offer->id}}" action="{{ route('admin.offers.destroy', $offer) }}" method="POST" style="display: none;">
+                    @method('DELETE')
+                    @csrf
+                </form>
+              </td>
+              </tr>
+            @endforeach
+            @else
+              <tr>
+              <td colspan="7" class="alert alert-info">No Images Found..</td>
+              </tr>
+            @endif
+          </tbody>
+        </table>
+      </div>
+
+
+      </div>
+    </div>
+    
 
   </div>
           

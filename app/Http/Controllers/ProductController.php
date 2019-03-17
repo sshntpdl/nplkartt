@@ -8,6 +8,9 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Cart; 
+use App\Review;
+use App\Order;
+use App\Customer;
 use Session;
 use DB;
 
@@ -95,6 +98,7 @@ class ProductController extends Controller
            'slug' => $request->slug,
            'features'=>$request->features,
            'description'=>$request->description,
+           'ratings'=>$request->ratings,
            'thumbnail' => $path,
            'status' => $request->status,
            'size_options' => isset($request->size_options) ? ($request->size_options)  : null,
@@ -215,7 +219,10 @@ class ProductController extends Controller
 
     public function single(Product $product){
         $products=Product::inRandomOrder()->take(3)->get();
-        return view('products.single',compact('product','products'));
+        $reviews=Review::where('product_id',$product->id)->take(6)->get();
+        $orders=Order::where('product_id',$product->id)->pluck('customer_id')->toArray();
+        $customers=Customer::whereIn('id',$orders)->pluck('email')->toArray();
+        return view('products.single',compact('product','products','reviews','customers'));
     }
 
     public function addToCart(Product $product , Request $request){
@@ -260,6 +267,28 @@ class ProductController extends Controller
     {
         $categories = Category::with('childrens')->get();
         return view('admin.products.create',compact('product', 'categories'));
+    }
+
+    public function review(Request $request,Review $review){
+        $review->user_name=($request->userName) ? $request->userName : 'Anonymous';
+        $review->product_id=$request->productId; 
+        $review->reviews=$request->review;
+        $review->ratings=$request->ratings;
+        $review->user_email=$request->userEmail;
+        if($review->save()){
+            return redirect()->back()->with('message','Thanks For Your Response.');
+        }else{
+            return redirect()->back()->with('message','Errors getting reviews.');
+        }
+
+    }
+
+    public function deleteReview(Request $request){
+        if(Review::where('id',$request->reviewId)->get()->each->delete()){
+            return redirect()->back()->with('message','Succesfully Deleted');
+        }else{
+            return redirect()->back()->with('message','Failed Deleting');
+        }
     }
 
     /**
@@ -321,6 +350,7 @@ class ProductController extends Controller
          $product->featured = ($request->featured) ? $request->featured : 0;
          $product->assurance = ($request->assurance) ? $request->assurance : 0;
          $product->price = $request->price;
+         $product->ratings = $request->ratings;
          //$product->discount = $request->discount ? $request->discount : 0;
          $product->discount_price = ($request->discount_price) ? ($request->discount_price) : 0;
          $product->size_options =  ($request->size_options) ? ($request->size_options) : null;
